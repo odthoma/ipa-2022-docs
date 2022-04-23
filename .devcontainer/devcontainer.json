@@ -1,0 +1,22 @@
+{
+  "name": "ipa-2022-docs",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "latest"
+    }
+  },
+  "extensions": [
+    "james-yu.latex-workshop",
+    "valentjn.vscode-ltex",
+    "be5invis.toml",
+    "yzhang.markdown-all-in-one",
+    "k--kato.intellij-idea-keybindings",
+    "eamodio.gitlens",
+    "GitHub.vscode-pull-request-github"
+  ],
+  // uncomment to mount workspace in 'remote-workspace' docker-volume (e.g. for remote development)
+  // "workspaceMount": "source=remote-workspace,target=/workspace,type=volume",
+  // "workspaceFolder": "/workspace",
+  "remoteUser": "vscode"
+}
