@@ -17,6 +17,5 @@
   ],
   // uncomment to mount workspace in 'remote-workspace' docker-volume (e.g. for remote development)
   // "workspaceMount": "source=remote-workspace,target=/workspace,type=volume",
-  // "workspaceFolder": "/workspace",
-  "remoteUser": "vscode"
+  // "workspaceFolder": "/workspace"
 }
