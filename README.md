@@ -6,4 +6,4 @@ Repository of the Renuo Assessment-Assistant: https://github.com/renuo/renuo-ass
 
 ## License
 
-The report is available as open source under the terms of the [GPLv3 License](LICENSE).
+The report is available as open source under the terms of the [AGPL-3.0 License](LICENSE).
