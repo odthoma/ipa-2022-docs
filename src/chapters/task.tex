@@ -1,15 +1,99 @@
 % [2]: Seite 11
 \chapter{Aufgabenstellung}
 
-Dieses Kapitel beinhaltet die komplette Aufgabenstellung im originalen Wortlaut.
+Dieses Kapitel beinhaltet die komplette Aufgabenstellung im originalen Wortlaut von PkOrg.ch.
 
 \section{Ausgangslage}
 
-\lipsum[1-2]
+Der Einstellungsprozess der Renuo ist zeitaufwendig wegen der intensiven Assessments, welche Bewerber
+durchlaufen müssen. So unterziehen sich z.B. IMS-Praktikanten (8 Assessments bei etwa 40 Bewerbern) einer
+vierstündigen Session mit 12 Programmieraufgaben. Diese Aufgaben werden gewissenhaft korrigiert. Die
+Resultate werden den Bewerbern mitgeteilt, sodass die investierte Zeit bei jedem Ausgang des Assessments
+nicht vergebens ist.
+
+Diese IPA hat zum Ziel die Koordination des Renuo-Assessment-Prozesses mit einer Web-Plattform zu
+erleichtern. Das Austeilen der Aufgaben und die rechtzeitige Abgabe der Lösungen soll vereinheitlicht werden.
+Im Weiteren sollen die Aufgaben neu direkt in der Plattform erfasst und die Lösungen ausgewertet werden
+können.
 
 \section{Detaillierte Aufgabenstellung}
 
-\lipsum[3-9]
+Die in dieser Arbeit entwickelte Web-Plattform vereinheitlicht und erleichtert den Renuo-Assessment-Prozess.
+
+\textbf{Die Software bedient folgende Benutzerrollen:}
+\begin{itemize}
+    \item \enquote{Bewerber}: durchläuft ein Assessment
+    \item \enquote{Betreuer}: koordiniert den Ablauf des Assessments
+    \item \enquote{Korrektor}: korrigiert die Lösungen
+\end{itemize}
+
+\emph{(Die Rollen des Betreuers und des Korrektors müssen nicht separat gehandhabt werden.)}
+
+\newpage
+
+\subsection{Funktionale Anforderungen}
+
+\begin{itemize}
+    \item F1: \enquote{Als Bewerber kann ich per Einladungs-Link an einer Assessment-Session teilnehmen} (damit ich Zugriff auf die Aufgaben erhalte.)
+    \item F2: \enquote{Als Bewerber sehe ich, wie lange die Assessment-Session dauert, damit ich mir meine Arbeit richtig aufteilen kann.}
+    \item F3: \enquote{Als Bewerber kann ich meine Lösungen zu jeder Aufgabe einzeln hochladen damit meine Leistung mit den der anderen Bewerber verglichen werden kann.}
+          \\Die Aufgaben können wie folgt abgegeben werden:
+          \begin{itemize}
+              \item als Dateien (z.B. Fotos von handgezeichneten Diagrammen)
+          \end{itemize}
+    \item F4: \enquote{Als Bewerber erhalte ich nach dem Assessment Einsicht in den Korrektur-Kommentar.}
+    \item F5: \enquote{Als Betreuer kann ich Assessment-Sessionen konfigurieren. So kontrolliere ich wann und wie lange das Assessment stattfindet und wer daran teilnimmt.}
+          \begin{itemize}
+              \item Bewerber werden per E-Mail-Adresse erfasst.
+              \item Die Assessment-Session durchläuft folgende Status: \emph{preparing, open, reviewing, closed}
+              \item Es können beliebig viele Assessment-Sessionen laufen - auch gleichzeitig.
+          \end{itemize}
+    \item F6: \enquote{Als Betreuer kann ich zu einer Assessment-Sessionen Aufgaben mit einer Beschreibung verwalten.}
+          \begin{itemize}
+              \item Die Beschreibung kann formatiert werden (HTML / Markdown)
+              \item Als Bewerber kann ich die Aufgabenstellung im Portal einsehen
+          \end{itemize}
+    \item F7: \enquote{Als Betreuer kann ich Bewerber per Instruktions-E-Mail mit Invite-Link zu einer Assessment-Session einladen. So stelle ich sicher, dass die Bewerber rechtzeitig informiert sind und sich auf die Session vorbereiten können.}
+          \begin{itemize}
+              \item Die E-Mail soll die E-Mail-Adresse des Betreuers im reply-to-Header enthalten.
+              \item Der E-Mail-Inhalt darf hardcoded sein
+          \end{itemize}
+    \item F8: \enquote{Als Korrektor kann ich pro Assessment-Session jede Aufgabe mit den dazu abgegebenen Lösungen einsehen und Korrektur-Kommentare abgeben.}
+          \begin{itemize}
+              \item Die Korrektur findet pro Aufgabe und nicht pro Person statt, damit ein Vergleich zwischen den Kandidaten möglich ist
+              \item Die Reihenfolge der Lösungen ist bei jeder Aufgabe zufällig
+          \end{itemize}
+    \item F9: \enquote{Als Korrektor sehe ich während der Korrektur nie, zu wem (E-Mail-Adresse) die abgegebene Lösung gehört. So bleibe ich unparteiisch.}
+    \item F10: \enquote{Als Korrektor kann ich die Assessment-Session schliessen um den Bewerbungsprozess zu einer Entscheidung zu bringen.}
+          \begin{itemize}
+              \item Das generiert eine Tabelle mit allen Korrektur-Kommentaren pro Person.
+              \item Der Bewerber kann seine Resultate auf dem Portal einsehen
+          \end{itemize}
+\end{itemize}
+
+\newpage
+
+\subsection{Nicht-funktionale Anforderungen}
+
+\begin{itemize}
+    \item N1 Software-Design: Die Applikation ist für Heroku (12factor) mit AWS S3-Speicher konzipiert.
+    \item N2 Software-Design: Die Applikation ist versendet E-Mails via Sparkpost.
+    \item N3 Sicherheit: Bewerber dürfen die Lösungen anderer Bewerber nicht sehen können. Die Öffentlichkeit hat niemals Zugriff auf Aufgaben oder Lösungen.
+    \item N4 Performance: Das Hochladen von (auch grossen) Dateien darf den Betrieb für Bewerber nicht beeinträchtigen.
+    \item N5 UX: Für die Bedienung darf kein dediziertes Benutzerhandbuch notwendig sein.
+    \item N6 Dokumentation: Wichtige Teile der Software müssen mit den richtigen UML-Diagrammen beschrieben werden:
+          \begin{itemize}
+              \item Entity-Relation-Diagramm für die Business-Domain
+              \item State-Diagramm (Zustandsdiagramm) zur Kontrolle des Assessment-Ablaufs
+          \end{itemize}
+    \item N7 Tests: Der Happy-Path für alle Rollen muss automatisiert getestet sein (UI-Tests).
+    \item N8 Tests: Die Unit-Test-Abdeckung des geschriebenen Codes beträgt 100%.
+\end{itemize}
 
 \section{Mittel und Methoden}
-\lipsum[10]
+
+\textbf{Für die IPA werden folgende Technologien eingesetzt:}
+\begin{itemize}
+    \item Ruby on Rails
+    \item HTML5 (HTML, JS, CSS)
+\end{itemize}

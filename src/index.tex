@@ -1,18 +1,30 @@
 % !TeX root = index.tex
-% define document class
+
 \documentclass{scrreprt}
 
-% set variables
-\newcommand{\varAuthor}{Max Muster}
-\newcommand{\varCandidate}{\textbf{\varAuthor} \\ max.muster@example.com} % Kandidat/in
-\newcommand{\varResponsibleSpecialist}{\textbf{Franziska Müller} \\ franziska.mueller@example.com} % verantwortliche Fachkraft
-\newcommand{\varVocationalTrainer}{\textbf{Thea Meier} \\ thea.meier@example.com} % Berufsbildner/in
-\newcommand{\varPrimaryExpert}{\textbf{Franz Krebs} \\ franz.krebs@example.com} % Hauptexperte
-\newcommand{\varSecondaryExpert}{\textbf{Adrian Kuster} \\ adrian.kuster@example.com} % Nebenexperte
-\newcommand{\varCompany}{Beispiel AG} % Firmenname
-\newcommand{\varCompanyDepartment}{Entwicklung} % Abteilungsname
-\newcommand{\varTitle}{Meine coole IPA}
-\newcommand{\varVersion}{0.1} % Versionsnummer: Pro IPA-Tag um 0.1 erhöhen
+\newcommand{\varVersion}{0.1}
+
+\newcommand{\varAuthor}{Oliver Thoma}
+\newcommand{\varTitle}{Renuo Assessment-Assistant}
+\newcommand{\varSubtitle}{IPA-Bericht vom 23.05.2022 bis 07.06.2022}
+\newcommand{\varCompany}{Renuo AG} 
+\newcommand{\varCompanyDepartment}{wg-interns}
+
+\newcommand{\varCandidate}{
+  \textbf{\varAuthor} \\ oliver.thoma@renuo.ch \\ 076 362 50 05 (P) \\ 044 500 83 50 (G)
+}
+\newcommand{\varResponsibleSpecialist}{
+  \textbf{Simon Huber} \\ simon.huber@renuo.ch \\ 044 500 83 53 (G)
+}
+\newcommand{\varVocationalTrainer}{
+  \textbf{Rima Kalberer} \\ rima.kalberer@kbw.ch \\  076 595 95 38 (P) 
+}
+\newcommand{\varPrimaryExpert}{
+  \textbf{Christian Mäder} \\ pk19@cmaeder.ch \\ 079 524 51 83 (P) 
+}
+\newcommand{\varSecondaryExpert}{
+  \textbf{Roberto Ranieri} \\ roberto.ranieri@gmx.net \\  079 349 30 74 (P) 
+}
 \newcommand{\varExaminationBoard}{Prüfungskomission 19} % Prüfungsorganisation
 \newcommand{\varExaminationBoardDepartment}{Informatik Applikationsentwicklung} % Fachrichtung
 
@@ -22,7 +34,7 @@
 \lohead[\varTitle]{\varTitle}
 \lofoot[\today]{\today}
 % see B6.5
-\cfoot[\varAuthor\ / \varCompany\\Version \varVersion]{\varAuthor\ / \varCompany\\Version \varVersion}
+\cfoot[\varAuthor\ / \varCompany\\Version \varVersion ]{\varAuthor\ / \varCompany\\Version \varVersion}
 \rofoot[Seite \pagemark{} von \pageref{LastPage}]{Seite \pagemark{} von \pageref{LastPage}}
 
 % load sources
@@ -37,81 +49,81 @@
 % create document
 \begin{document}
 
-  % set page numbering
-  \pagenumbering{roman}
+% set page numbering
+\pagenumbering{roman}
 
-  % set page style
-  \pagestyle{scrheadings}
+% set page style
+\pagestyle{scrheadings}
 
-  % include title page
-  \thispagestyle{empty}
-  
-  \input{pages/title}
+% include title page
+\thispagestyle{empty}
 
-  \newpage
-  \TileWallPaper{\paperwidth}{\paperheight}{images/background.pdf}
+\input{pages/title}
 
-  % see A1.3
-  % see B6.3
-  % generate the table of contents
-  \tableofcontents
+\newpage
+\TileWallPaper{\paperwidth}{\paperheight}{images/background.pdf}
 
-  % finish page
-  \clearpage
+% see A1.3
+% see B6.3
+% generate the table of contents
+\tableofcontents
 
-  % use the arabic numbering system
-  \pagenumbering{arabic}
+% finish page
+\clearpage
 
-  % reset page counter
-  \setcounter{page}{1}
+% use the arabic numbering system
+\pagenumbering{arabic}
 
-  % see B6.1a
-  % create a phantom toc entry for "Umfeld und Ablauf"
-  \clearpage\phantomsection\addcontentsline{toc}{part}{Umfeld und Ablauf}
+% reset page counter
+\setcounter{page}{1}
 
-  \input{chapters/task}
-  \input{chapters/declaration}
-  \input{chapters/organisation}
-  \input{chapters/timeplan}
-  \input{chapters/journal}
+% see B6.1a
+% create a phantom toc entry for "Umfeld und Ablauf"
+\clearpage\phantomsection\addcontentsline{toc}{part}{Umfeld und Ablauf (Teil 1)}
 
-  % see B6.1a
-  % create a phantom toc entry for "Projekt"
-  \clearpage\phantomsection\addcontentsline{toc}{part}{Projekt}
+\input{chapters/task}
+\input{chapters/declaration}
+\input{chapters/organisation}
+\input{chapters/timeplan}
+\input{chapters/journal}
 
-  \input{chapters/summary}
-  \input{chapters/inform}
-  \input{chapters/plan}
-  \input{chapters/decide}
-  \input{chapters/implement}
-  \input{chapters/check}
-  \input{chapters/evaluate}
+% see B6.1a
+% create a phantom toc entry for "Projekt"
+\clearpage\phantomsection\addcontentsline{toc}{part}{Projekt (Teil 2)}
 
-  % see B6.6
-  % create a phantom toc entry for the index/glossary table
-  \clearpage\phantomsection\addcontentsline{toc}{part}{Glossar}
+\input{chapters/summary}
+\input{chapters/inform}
+\input{chapters/plan}
+\input{chapters/decide}
+\input{chapters/implement}
+\input{chapters/check}
+\input{chapters/evaluate}
 
-  % generate glossary
-  \printnoidxglossary[title={Glossar}]
+% see B6.6
+% create a phantom toc entry for the index/glossary table
+\clearpage\phantomsection\addcontentsline{toc}{part}{Glossar}
 
-  % create a phantom toc entry for the figures table
-  \clearpage\phantomsection\addcontentsline{toc}{part}{Abbildungsverzeichnis}
+% generate glossary
+\printnoidxglossary[title={Glossar}]
 
-  % generate figures table
-  \listoffigures
+% create a phantom toc entry for the figures table
+\clearpage\phantomsection\addcontentsline{toc}{part}{Abbildungsverzeichnis}
 
-  % create a phantom toc entry for the literature table
-  \clearpage\phantomsection\addcontentsline{toc}{part}{Literaturverzeichnis}
+% generate figures table
+\listoffigures
 
-  % generate bibliography
-  \printbibliography[title=Literaturverzeichnis]
+% create a phantom toc entry for the literature table
+\clearpage\phantomsection\addcontentsline{toc}{part}{Literaturverzeichnis}
 
-  % defines the beginning of the appendix
-  \appendix
+% generate bibliography
+\printbibliography[title=Literaturverzeichnis]
 
-  % create a phantom toc entry for "Projekt"
-  \clearpage\phantomsection\addcontentsline{toc}{part}{Anhang}
+% defines the beginning of the appendix
+\appendix
 
-  \input{appendix/source}
+% create a phantom toc entry for "Projekt"
+\clearpage\phantomsection\addcontentsline{toc}{part}{Anhang}
+
+\input{appendix/source}
 
 \end{document}
