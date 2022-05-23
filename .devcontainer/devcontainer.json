@@ -12,8 +12,7 @@
     "be5invis.toml",
     "yzhang.markdown-all-in-one",
     "k--kato.intellij-idea-keybindings",
-    "eamodio.gitlens",
-    "GitHub.vscode-pull-request-github"
+    "eamodio.gitlens"
   ],
   // uncomment to mount workspace in 'remote-workspace' docker-volume (e.g. for remote development)
   // "workspaceMount": "source=remote-workspace,target=/workspace,type=volume",
