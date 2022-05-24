@@ -56,22 +56,21 @@ Im folgenden Abschnitt wird die Einordnung des Systems in das Gesamtsystem gezei
 
 \subsection{Gesamtsystem}
 
-Die Abbildung \ref{fig:deployment} zeigt den Zusammenhang der einzelnen Systeme, die in dieser PA zum Einsatz kommen.
-Der Kern des Gesamtsystems ist hierbei die \emph{Ruby on Rails} Applikation, die auf einem Heroku Cloud-Server gehostet wird.
+Die Abbildung \ref{fig:deployment} zeigt die Zusammenhänge der einzelnen Systeme, die in dieser PA zum Einsatz kommen.
+Der Kern des Gesamtsystems ist hierbei die \emph{Ruby on Rails} Applikation, die auf einem Heroku Cloud-Server gehostet werden soll.
 
 Es wurden nur die notwendigsten Komponenten der einzelnen Nodes aufgezeigt, welche über die jeweiligen Schnittstellen direkt mit den anderen Systemen interagieren.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/deployment.png}
-    \caption{UML Deployment Diagramm}
-    \label{fig:deployment}
+    \includegraphics[width=\textwidth]{images/diagrams/deployment.png}
+    \caption{\label{fig:deployment}UML Deployment Diagramm}
 \end{figure}
 
 \subsection{Systeme und Schnittstellen}
 
 Folgender Abschnitt beschreibt die einzelnen Systeme und Schnittstellen aus der Abbildung \ref{fig:deployment},
-für was sie zuständig sind und wie sie mit dem Kernsystem zusammenhängen und interagieren.
+wofür sie zuständig sind und wie sie mit dem Kernsystem zusammenhängen und interagieren.
 
 \subsubsection{Heroku}
 Heroku ist eine Cloud-Plattform, auf der das Kernsystem gehostet werden soll. Die Plattform bietet eine
@@ -109,16 +108,19 @@ Darauf sollen die Assessment-Lösungen der Bewerber hochgeladen werden.
 
 Mit dem System interagieren die folgenden Akteure:
 
-\begin{tabular}{|l|l|}
-    \hline
-    \rowcolor{PrimaryColor!50} Akteur & Beschreibung                                       \\
-    \hline
-    Bewerber                          & Durchläuft ein Assessment                          \\
-    \hline
-    Betreuer                          & Koordiniert den Ablauf eines Assessments           \\
-    \hline
-    Korrektor                         & Korrigiert die Lösungen                            \\
-    \hline
-    Zeit                              & Erzwingt ein rechtzeitiges Beenden des Assessments \\
-    \hline
-\end{tabular}
+\begin{table}[H]
+    \begin{tabular}{|l|l|}
+        \hline
+        \rowcolor{PrimaryColor!50} Akteur & Beschreibung                                       \\
+        \hline
+        Bewerber                          & Durchläuft ein Assessment                          \\
+        \hline
+        Betreuer                          & Koordiniert den Ablauf eines Assessments           \\
+        \hline
+        Korrektor                         & Korrigiert die Lösungen                            \\
+        \hline
+        Zeit                              & Erzwingt ein rechtzeitiges Beenden des Assessments \\
+        \hline
+    \end{tabular}
+    \caption{\label{tab:participants} Akteure des Systems}
+\end{table}
