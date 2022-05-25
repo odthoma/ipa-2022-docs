@@ -1,2 +1,74 @@
 \chapter{Entscheiden} \label{ch:decide}
 
+Dieses Kapitel soll
+
+Dazu werden Nutzwertanalysen verwendet, um so möglichst objektive Entscheidungen treffen zu können. Die Analysen vergleichen jeweils
+zwei Varianten von Softwarebibliotheken miteinander, die für die jeweiligen Problemstellungen infrage kommen würden. Die Kriterien werden
+mittels eines Punktesystems von 0 bis 5 Punkten bewertet, welche im Anschluss zusammengezählt werden.
+Jedes dieser Kriterien hat eine andere Gewichtung, bezogen auf deren Wichtigkeit in dieser PA.
+
+Dabei spielen die bereits vorhandenen \emph{Kentnisse} über die einzelnen eine sehr grosse Rolle, da das Projekt in einer sehr kurzen Zeit realisiert werden soll.
+
+\section{State management}
+Um die in die in der  Abbildung \ref{fig:state-diagram} beschriebenen Zustände zu verwalten,
+ergibt es durchaus Sinn, das Konzept einer \emph{State-Machine} einzuführen. In der Ruby on Rails Welt
+gibt es mehrere Softwarebibliotheken, die dieses Konzept umsetzten.
+
+\subsubsection{Variante 1: \enquote{AASM}}
+
+\subsubsection{Variante 2: \enquote{Stateful Enum}}
+
+\subsubsection{Nutzwertanalyse}
+
+Aus der folgenden Nutzwertanalyse
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    \rowcolor{PrimaryColor!50} Kriterium & Gewichtung & Variante 1 & Variante 2 \\
+    \hline
+    Bekanntheit                          & 5 \%       & 4          & 2          \\
+    \hline
+    Kenntnisse                           & 50 \%      & 0          & 0          \\
+    \hline
+    Dokumentationen/Anleitungen          & 15 \%      & 5          & 5          \\
+    \hline
+    Komplexität                          & 10 \%      & 2          & 3          \\
+    \hline
+    Umfang/Features                      & 20 \%      & 4          & 2          \\
+    \hline
+    \rowcolor{PrimaryColor!50}           &            &            &            \\
+    \hline
+    SUMME inkl. Gewichtung               &            &            &            \\
+    \hline
+\end{tabular}
+
+\section{Authorisierung}
+
+
+\subsubsection{Variante 1: \enquote{CanCanCan}}
+
+\subsubsection{Variante 2: \enquote{Pundit}}
+
+\subsubsection{Nutzwertanalyse}
+
+Aus der folgenden Nutzwertanalyse
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    \rowcolor{PrimaryColor!50} Kriterium              & Gewichtung & Variante 1 & Variante 2 \\
+    \hline
+    Bekanntheit                                       &            &            &            \\
+    \hline
+    Kenntnisse                                        &            &            &            \\
+    \hline
+    Dokumentationen/Anleitungen                       &            &            &            \\
+    \hline
+    Komplexität                                       &            &            &            \\
+    \hline
+    Umfang/Features                                   &            &            &            \\
+    \hline
+    \rowcolor{PrimaryColor!50} SUMME inkl. Gewichtung &            &            &            \\
+    \hline
+    Nutzwert                                          &            &            &            \\
+    \hline
+\end{tabular}

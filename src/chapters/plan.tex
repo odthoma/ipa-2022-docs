@@ -42,15 +42,15 @@ Bei dem \emph{rich\_text} Feldtyp handelt es sich um die bereits angesprochenen 
 welche automatisch in eine andere Tabelle ausgelagert werden. Bei einem \emph{attachment} handelt es sich um einen anhängenden File-Upload.
 
 \begin{figure}[H]
-    \begin{codebox}[]
-        \begin{minted}{shell}
+\begin{codebox}
+\begin{minted}{shell}
 bin/rails generate model Task title:string body:rich_text assessment:references
 bin/rails generate model Assessment title:string status:string starts_at:datetime ends_at:datetime
-bin/rails generate model Solution files:attachments task:references task:references user:references
+bin/rails generate model Solution files:attachments task:references user:references
 bin/rails generate model Comment body:rich_text solution:references 
 \end{minted}
-    \end{codebox}
-    \caption{\label{fig:generate-models}Commands für die automatisierte Generation von Model-Klassen}
+\end{codebox}
+\caption{\label{fig:generate-models}Commands für die automatisierte Generation von Model-Klassen}
 \end{figure}
 
 \newpage
@@ -225,7 +225,7 @@ Diese werden auf der lokalen Umgebung des Kandidaten ausgeführt, welche in \ref
     \\ \hline
 \end{tabularx}
 
-\subsubsection{Integration von Hintergrundprozessen mit Redis}
+\subsubsection{Integration von Hintergrundprozessen mit Heroku-Redis}
 \begin{tabularx}{\textwidth}[H]{|c|X|}
     \hline
     ID & 3 \\ 
@@ -240,8 +240,7 @@ Diese werden auf der lokalen Umgebung des Kandidaten ausgeführt, welche in \ref
         \item Es besteht ein \enquote{Betreuer} Account, mit dem bereits ein Assessment für diesen Test erstellt wurde.
               Dabei sollte die Zeit des Assessments relativ niedrig gesetzt werden.
         \item Es besteht ein \enquote{Bewerber} Account, der bereits in das Assessment eingeladen wurde.
-    \end{itemize}
-    \\ \hline
+    \end{itemize} \\ \hline
 
     Schritte &
     \begin{itemize}
