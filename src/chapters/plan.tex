@@ -16,8 +16,8 @@ Das Entity-relationship Diagramm \ref{fig:erd} zeigt alle für diese PA notwendi
 der einzelnen Tabellen können in der Planungsphase noch nicht vollumfänglich definiert werden und werden höchstwahrscheinlich in einzelnen Fällen während der Realisierungsphase
 erweitert. Das Grundkonzept und die Assoziationen zwischen den verschiedenen Entitäten bleiben allerdings gleich.
 
-Die drei Entitäten \emph{active\_storage\_attachment}, \emph{active\_storage\_blob} und \emph{action\_text\_rich\_text} werden automatisch durch das 
-Framework generiert und sollen in diesem Diagramm zum besseren Verständnis des Gesamtkonzeptes beitragen. In der Praxis wird man mit diesen Tabellen direkt kaum etwas zu tun haben. 
+Die drei Entitäten \emph{active\_storage\_attachment}, \emph{active\_storage\_blob} und \emph{action\_text\_rich\_text} werden automatisch durch das
+Framework generiert und sollen in diesem Diagramm zum besseren Verständnis des Gesamtkonzeptes beitragen. In der Praxis wird man mit diesen Tabellen direkt kaum etwas zu tun haben.
 Diese werden von den zwei gems ActiveStorage und ActionText verwendet, welche das Einbinden von formatierten Textinhalten und Dateiuploads ermöglichen.
 
 \begin{figure}[H]
@@ -59,9 +59,10 @@ bin/rails generate model Comment body:rich_text solution:references
 \section{Zustandsdiagramm}
 
 Während dem Lebenszyklus von einem \emph{assessment} durchläuft dieses mehrere Zustände. Diese ändern
-sich durch Interaktionen gewisser Akteure mit dem System. Der Zustand verläuft relativ linear und es gibt kaum Sonderfälle.
-Das Diagramm \ref{fig:state-diagram} versucht diesen Prozess zu veranschaulichen. Zwischen den Zuständen gibt es jeweils einen 
-\emph{Trigger}, eine \emph{[Guard]} oder einen \emph{/Effect}.
+sich durch Interaktionen gewisser Akteure mit dem System. Der Zustand verläuft relativ linear von einem Zustand zum nächsten und es gibt keine Abzweigungen
+oder sonstige Sonderfälle. Das Diagramm \ref{fig:state-diagram} versucht diesen Prozess zu veranschaulichen.
+
+Zwischen den Zuständen gibt es jeweils einen \emph{Trigger}, eine \emph{[Guard]} oder einen \emph{/Effect}.
 
 \begin{figure}[H]
     \centering
@@ -74,12 +75,19 @@ Das Diagramm \ref{fig:state-diagram} versucht diesen Prozess zu veranschaulichen
 \section{Mockups}
 
 In diesem Abschnitt folgen grobe Entwürfe der verschiedenen Ansichten der Applikation. Diese sollen die Realisierung
-erheblich vereinfachen und verschaffen nicht nur einen Überblick über das UI-Design, sondern . Kategorisiert wurden die Entwürfe nach den Akteuren \ref{tab:participants}
+erheblich vereinfachen und verschaffen nicht nur einen Überblick über das UI-Design, sondern auch über die genaueren
+Funktionalitäten und Benutzer-Flows der Applikation. Die Entwürfe wurden ausserdem nach den Akteuren \ref{tab:participants} kategorisiert.
+
+Beim Design wurde darauf geachtet, es möglichst minimalistisch zu halten und strikt der Aufgabenstellung zu folgen. Es wurden keine überflüssigen Elemente
+eingebaut um sowohl die Realisierung als auch die spätere Nutzung der Applikation zu vereinfachen.
+
+Ausserdem wurde das UI in englisch gestaltet, da es die Firmensprache in der Renuo AG ist.
 
 \subsection{Bewerber}
 \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{images/mockups/candidate-solve-assessment.png}
+
     \caption{\label{fig:mockup-candidate-solve-assessment}Entwurf für das Lösen eines Assessments}
 \end{figure}
 
@@ -113,10 +121,150 @@ erheblich vereinfachen und verschaffen nicht nur einen Überblick über das UI-D
 
 Das Testkonzept beschreibt, wie und mit welchen Werkzeugen das Resultat auf seine Richtigkeit kontrolliert wird.
 
-\subsection{Testmethoden}
+\subsection{Automatisierte Tests}
 
-\subsubsection{Manuelle Tests}
+Grundsätzlich wird versucht eine Testabdeckung von 100\% durch automatisierte Tests zu erreichen. Die einzelnen
+Ziele/Meilensteine der Realisierungsphase werden in dieser PA testgetrieben implementiert. Das heisst, es werden zu Beginn
+Unit- und Integrationtests geschrieben und erst dann wird die eigentliche Funktionalität implementiert, bis alle Tests bestehen. Dies ermöglicht
+ein effizientes arbeiten, da über die exakte Implementation bereits im Vorraus nachgedacht wurde und es garantiert immer eine vollständige Testabdeckung.
 
-\subsubsection{Automatisierte Tests}
+Als Testmittel werden folgende Softwarebibliotheken eingesetzt:
+\begin{itemize}
+    \item RSpec
+    \item Capybara
+    \item FactoryBot
+    \item Faker
+\end{itemize}
 
-\subsection{Testmittel}
+Das Framework benutzt standardmässig eine dedizierte Testdatenbank, die nach jedem Test gereinigt wird. So gibt es keine Abhängigkeiten
+oder Konflikte unter einzelnen automatisierten Tests. Die zwei gems \emph{FactoryBot} und \emph{Faker} ermöglichen ausserdem möglichst
+Realitsätsnahe und Konstistente Testdaten- und Strukturen.
+
+\subsubsection{Unit Tests}
+Alle Model-, Helper- und Service-Klassen werden mittels RSpec Unit-Tests getestet. Diese sollen überprüfen,
+ob die einzelnen Komponenten so Arbeiten, wie diese es beabsichtigen.
+
+\subsubsection{Integration Tests}
+Die Controller werden per RSpec Integration-Test getestet. So werden alle Komponenten im Stack der Applikation von ganz oben
+nach ganz unten getestet und es wird eine korrekte Integration der darunterliegenden Komponenten sichergestellt.
+
+\subsubsection{System Tests}
+Für die einzelnen Flows aller Akteure werden System Tests mit Capybara geschrieben.
+Diese öffnen einen headless Chromium Browser und klicken sich automatisiert durch eine im Vorraus definierte Sequenz durch.
+
+\newpage
+
+\subsection{Manuelle Tests}
+
+Die automatisierten Tests decken bereits den grössten Teil der Applikation ab, jedoch gibt es dennoch Teile, die nur im Kontext
+des Gesamtsystems getestet werden können. Die folgenden manuellen Tests sollen demnach die vollständige Funktionalität und Integration in die Produktions-Umgebung sicherstellen.
+
+\begin{tabularx}{\textwidth}[H]{|c|X|}
+    \hline
+    ID & 
+    \lipsum[1][1]
+    \\ \hline
+    
+    Beschreibung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Vorraussetzung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Schritte & \lipsum[1][1]
+    \\ \hline
+
+    Erwartetes Ergebnis & 
+    \lipsum[1][1]
+    \\ \hline
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}[H]{|c|X|}
+    \hline
+    ID & 
+    \lipsum[1][1]
+    \\ \hline
+    
+    Beschreibung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Vorraussetzung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Schritte & \lipsum[1][1]
+    \\ \hline
+
+    Erwartetes Ergebnis & 
+    \lipsum[1][1]
+    \\ \hline
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}[H]{|c|X|}
+    \hline
+    ID & 
+    \lipsum[1][1]
+    \\ \hline
+    
+    Beschreibung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Vorraussetzung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Schritte & \lipsum[1][1]
+    \\ \hline
+
+    Erwartetes Ergebnis & 
+    \lipsum[1][1]
+    \\ \hline
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}[H]{|c|X|}
+    \hline
+    ID & 
+    \lipsum[1][1]
+    \\ \hline
+    
+    Beschreibung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Vorraussetzung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Schritte & \lipsum[1][1]
+    \\ \hline
+
+    Erwartetes Ergebnis & 
+    \lipsum[1][1]
+    \\ \hline
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}[H]{|c|X|}
+    \hline
+    ID & 
+    \lipsum[1][1]
+    \\ \hline
+    
+    Beschreibung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Vorraussetzung & 
+    \lipsum[1][1]
+    \\ \hline
+
+    Schritte & \lipsum[1][1]
+    \\ \hline
+
+    Erwartetes Ergebnis & 
+    \lipsum[1][1]
+    \\ \hline
+\end{tabularx}
