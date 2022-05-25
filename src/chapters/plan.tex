@@ -34,7 +34,7 @@ Ausserdem werden nicht alle Akteure aus \ref{tab:participants} in Form von Benut
 \subsection{Physisches Datenmodell (Generation)}
 
 Das Ruby on Rails Framework bietet verschiedenste Command-Line Utilities, mit denen man sich relativ einfach gewisse
-Grundstrukturen automatisiert generieren lassen Kann. Abgeleitet von \ref{fig:erd} können nun die ganzen Commands aufgestellt werden.
+Grundstrukturen automatisiert generieren lassen kann. Abgeleitet von \ref{fig:erd} können nun die ganzen Commands aufgestellt werden.
 Werden diese ausgeführt, erstellen diese sowohl die dazugehörigen Model-Klassen, als auch alle notwendigen Datenbankmigrationen.
 
 Die ganzen Assoziationen zwischen den Entitäten werden mit dem \emph{references} Typ schon bei der Generation abgebildet.
@@ -42,15 +42,15 @@ Bei dem \emph{rich\_text} Feldtyp handelt es sich um die bereits angesprochenen 
 welche automatisch in eine andere Tabelle ausgelagert werden. Bei einem \emph{attachment} handelt es sich um einen anhängenden File-Upload.
 
 \begin{figure}[H]
-\begin{codebox}[]
-\begin{minted}{shell}
+    \begin{codebox}[]
+        \begin{minted}{shell}
 bin/rails generate model Task title:string body:rich_text assessment:references
 bin/rails generate model Assessment title:string status:string starts_at:datetime ends_at:datetime
 bin/rails generate model Solution files:attachments task:references task:references user:references
 bin/rails generate model Comment body:rich_text solution:references 
 \end{minted}
-\end{codebox}
-\caption{\label{fig:generate-models}Commands für die automatisierte Generation von Model-Klassen}
+    \end{codebox}
+    \caption{\label{fig:generate-models}Commands für die automatisierte Generation von Model-Klassen}
 \end{figure}
 
 \newpage
@@ -59,14 +59,12 @@ bin/rails generate model Comment body:rich_text solution:references
 
 Während dem Lebenszyklus von einem \emph{assessment} durchläuft dieses mehrere Zustände. Diese ändern
 sich durch Interaktionen gewisser Akteure mit dem System. Der Zustand verläuft relativ linear von einem Zustand zum nächsten und es gibt keine Abzweigungen
-oder sonstige Sonderfälle. Das Diagramm \ref{fig:state-diagram} versucht diesen Prozess zu veranschaulichen.
-
-Zwischen den Zuständen gibt es jeweils einen \emph{Trigger}, eine \emph{[Guard]} oder einen \emph{/Effect}.
+oder sonstige Sonderfälle. Auch eine \enquote{Rückwärtsbewegung} ist ausgeschlossen. Das Diagramm \ref{fig:state-diagram} versucht diesen Prozess zu veranschaulichen.
 
 \begin{figure}[H]
     \centering
     \includegraphics[height=17cm]{images/diagrams/state.png}
-    \caption{\label{fig:state-diagram}UML Zustandsdiagramm eines Assessments}
+    \caption{\label{fig:state-diagram}Zustandsdiagramm eines Assessments nach UML 2.0}
 \end{figure}
 
 \newpage
@@ -77,17 +75,16 @@ In diesem Abschnitt folgen grobe Entwürfe der verschiedenen Ansichten der Appli
 erheblich vereinfachen und verschaffen nicht nur einen Überblick über das UI-Design, sondern auch über die genaueren
 Funktionalitäten und Benutzer-Flows der Applikation. Die Entwürfe wurden ausserdem nach den Akteuren \ref{tab:participants} kategorisiert.
 
-Bei den Designentwürfen wurde darauf geachtet, es möglichst minimalistisch zu halten und strikt der Aufgabenstellung zu folgen. 
-Es wurden keine überflüssigen Elemente eingebaut um sowohl die Realisierung als auch die spätere Nutzung der Applikation zu vereinfachen.
+Bei den Designentwürfen wurde darauf geachtet, diese möglichst minimalistisch zu halten und strikt der Aufgabenstellung zu folgen.
+Es wurden keine überflüssigen Elemente eingebaut, um sowohl die Realisierung als auch die spätere Nutzung der Applikation zu vereinfachen.
 
-Ausserdem soll das UI, wie auch schon in den Entwürfen gezeigt wird, vorerst in Englisch umgesetzt werden. Die offizielle Firmensprache
-in der Renuo AG ist Englisch und daher 
+Ausserdem soll das UI, wie auch schon in den Entwürfen gezeigt wird, vorerst in Englisch umgesetzt werden, da die  offizielle Firmensprache
+in der Renuo AG Englisch ist.
 
 \subsection{Bewerber}
 \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{images/mockups/candidate-solve-assessment.png}
-
     \caption{\label{fig:mockup-candidate-solve-assessment}Entwurf für das Lösen eines Assessments}
 \end{figure}
 
@@ -125,10 +122,10 @@ Das Testkonzept beschreibt, wie und mit welchen Werkzeugen das Resultat auf sein
 
 Grundsätzlich wird versucht eine Testabdeckung von 100\% durch automatisierte Tests zu erreichen. Die einzelnen
 Ziele/Meilensteine der Realisierungsphase werden in dieser PA testgetrieben implementiert. Das heisst, es werden zu Beginn
-Unit- und Integrationtests geschrieben und erst dann wird die eigentliche Funktionalität implementiert, bis alle Tests erfolgreich durchlaufen. Dadurch wird
-bereits im Vorraus über die genauere Implementation nachgedacht und es garantiert immer eine vollständige Testabdeckung.
+Unit- und Integrationstests geschrieben und erst dann wird die eigentliche Funktionalität implementiert, bis alle Tests erfolgreich durchlaufen. Dadurch wird
+bereits im Voraus über die genauere Implementation nachgedacht und es garantiert immer eine vollständige Testabdeckung.
 
-Bei jedem push auf das GitHub Repository wird der Code die CI/CD Pipelines auf einer modernen Linux-Umgebung durchlaufen.
+Bei jedem push auf das Git Repository wird der Code die CI/CD Pipelines auf einer modernen Linux-Umgebung durchlaufen.
 
 Als Testmittel werden ausserdem folgende Softwarebibliotheken eingesetzt:
 \begin{itemize}
@@ -140,135 +137,120 @@ Als Testmittel werden ausserdem folgende Softwarebibliotheken eingesetzt:
 
 Das Framework benutzt standardmässig eine dedizierte Testdatenbank, die nach jedem Test gereinigt wird. So gibt es keine Abhängigkeiten
 oder Konflikte unter einzelnen automatisierten Tests. Die zwei gems \emph{FactoryBot} und \emph{Faker} ermöglichen ausserdem möglichst
-Realitsätsnahe und Konstistente Testdaten- und Strukturen.
+realitätsnahe und konsistente Testdaten- und Strukturen.
 
 \subsubsection{Unit Tests}
 Alle Model-, Helper- und Service-Klassen werden mittels RSpec Unit-Tests getestet. Diese sollen überprüfen,
 ob die einzelnen Komponenten so Arbeiten, wie diese es beabsichtigen.
 
 \subsubsection{Integration Tests}
-Die Controller werden per RSpec Integration-Test getestet. So werden alle Komponenten im Stack der Applikation von ganz oben
+Die Controller werden per RSpec Integration-Tests getestet. So werden alle Komponenten im Stack der Applikation von ganz oben
 nach ganz unten getestet und es wird eine korrekte Integration der darunterliegenden Komponenten sichergestellt.
 
 \subsubsection{System Tests}
 Für die einzelnen Benutzer-Flows aller Akteure werden System Tests mit Capybara geschrieben.
-Diese öffnen einen headless Chromium Webbrowser und klicken sich automatisiert durch eine im Vorraus definierte Sequenz durch.
-Dabei werden keine Sonderfälle, sondern lediglich die Happy-Paths getestet.
+Diese öffnen einen headless Chromium Webbrowser und klicken sich automatisiert durch eine im Voraus definierte Sequenz durch.
+Dabei werden keine Sonderfälle, sondern lediglich die Happy-Paths getestet, da die restlichen Sonderfälle wie z.B. Validierungen bereits durch andere Tests gedeckt sind.
 
 \newpage
 
 \subsection{Manuelle Tests}
 
-Die automatisierten Tests decken bereits die wichtigsten Funktionalitäten ab, jedoch gibt es dennoch Teile in der Applikation, die nur im Kontext
-des Gesamtsystems getestet werden können. Die folgenden manuellen Tests sollen demnach die vollständige Funktionalität und Integration in die Produktions-Umgebung sicherstellen.
-Diese werden auf der lokalen Umbegubg des Kandidaten \ref{sec:tools} ausgeführt.
+Die automatisierten Tests decken bereits die wichtigsten Funktionalitäten ab,
+jedoch gibt es dennoch Teile in der Applikation, die nur im Kontext des Gesamtsystems getestet werden können.
 
-\begin{tabularx}{\textwidth}[H]{|c|X|}
+Die folgenden manuellen Tests sollen demnach die vollständige Funktionalität und Integration in die Produktions-Umgebung sicherstellen.
+Diese werden auf der lokalen Umgebung des Kandidaten ausgeführt, welche in \ref{sec:tools} beschrieben wird.
+
+\subsubsection{Integration von ActiveStorage mit Amazon S3}
+\begin{tabularx}{\textwidth}[H]{|>{\columncolor{red!30}}c|X|}
     \hline
-    ID & 
-    \lipsum[1][1]
-    \\ \hline
-    
-    Beschreibung & 
-    \lipsum[1][1]
+    ID & 1 \\ 
+    \hline
+
+    Beschreibung &
+    Upload und Download von Dateien in realistischen Grössen (etwa 250MB) funktionieren ordnungsgemäss
     \\ \hline
 
-    Vorraussetzung & 
-    \lipsum[1][1]
+    Vorraussetzung &
+    \begin{itemize}
+        \item Einige geeignete Dateien für den Upload wurden vorbereitet
+        \item Ein Assessment wurde für diesen Test erstellt und ein Bewerber wurde eingeladen
+        \item Man ist eingeloggt mit einem \enquote{Bewerber} Account
+    \end{itemize}
     \\ \hline
 
-    Schritte & \lipsum[1][1]
+    Schritte & 
+    \begin{itemize}
+        \item Das Assessment, zu dem der Bewerber eingeladen wurde, starten und öffnen
+        \item Im ersten Task die Datei hochladen
+        \item Das Assessment frühzeitig abgeben
+        \item Ausloggen und mit einem \enquote{Korrektor} Account einloggen
+        \item In die Korrekturansicht wechseln und die Datei herunterladen
+    \end{itemize}
     \\ \hline
 
-    Erwartetes Ergebnis & 
-    \lipsum[1][1]
+    Erwartetes Ergebnis &
+    Der Bewerber kann die Datei problemlos hochladen und der Korrektor kann diese im ganzen Umfang herunterladen und einsehen. 
     \\ \hline
 \end{tabularx}
 
+\subsubsection{Integration mit dem Sparkpost E-Mail Service}
 \begin{tabularx}{\textwidth}[H]{|c|X|}
     \hline
-    ID & 
-    \lipsum[1][1]
-    \\ \hline
-    
-    Beschreibung & 
-    \lipsum[1][1]
+    ID & 2 \\ 
+    \hline
+
+    Beschreibung &
+    E-Mail Benachrichtigungen werden versendet
     \\ \hline
 
-    Vorraussetzung & 
-    \lipsum[1][1]
+    Vorraussetzung &
+    \begin{itemize}
+        \item Es besteht eine E-Mail-Adresse, auf die man Zugriff hat
+        \item Es besteht ein \enquote{Betreuer} Account, mit dem bereits ein Assessment für diesen Test erstellt wurde
+        \item Man ist eingeloggt mit einem \enquote{Betreuer} Account
+    \end{itemize}
     \\ \hline
 
-    Schritte & \lipsum[1][1]
+    Schritte & 
+    \begin{itemize}
+        \item Auf die Übersichtsseite der Assessments navigieren
+        \item Einen neuen Bewerber zu diesem Assessment einladen - mit der vorbereiteten E-Mail-Adresse
+    \end{itemize}
     \\ \hline
 
-    Erwartetes Ergebnis & 
-    \lipsum[1][1]
+    Erwartetes Ergebnis &
+    Der Bewerber erhält eine Benachrichtigung in sein E-Mail-Postfach, dass er zu einem Assessment bei der Renuo AG eingeladen wurde.
     \\ \hline
 \end{tabularx}
 
+\subsubsection{Integration von Hintergrundprozessen mit Redis}
 \begin{tabularx}{\textwidth}[H]{|c|X|}
     \hline
-    ID & 
-    \lipsum[1][1]
-    \\ \hline
-    
-    Beschreibung & 
-    \lipsum[1][1]
-    \\ \hline
-
-    Vorraussetzung & 
-    \lipsum[1][1]
-    \\ \hline
-
-    Schritte & \lipsum[1][1]
-    \\ \hline
-
-    Erwartetes Ergebnis & 
-    \lipsum[1][1]
-    \\ \hline
-\end{tabularx}
-
-\begin{tabularx}{\textwidth}[H]{|c|X|}
+    ID & 3 \\ 
     \hline
-    ID & 
-    \lipsum[1][1]
-    \\ \hline
-    
-    Beschreibung & 
-    \lipsum[1][1]
+
+    Beschreibung &
+    Der Hintergrundprozess für das rechtzeitige Beenden eines Assessments wird korrekt ausgeführt
     \\ \hline
 
-    Vorraussetzung & 
-    \lipsum[1][1]
+    Vorraussetzung &
+    \begin{itemize}
+        \item Es besteht ein \enquote{Betreuer} Account, mit dem bereits ein Assessment für diesen Test erstellt wurde.
+              Dabei sollte die Zeit des Assessments relativ niedrig gesetzt werden.
+        \item Es besteht ein \enquote{Bewerber} Account, der bereits in das Assessment eingeladen wurde.
+    \end{itemize}
     \\ \hline
 
-    Schritte & \lipsum[1][1]
+    Schritte &
+    \begin{itemize}
+        \item Das Assessment manuell über den \enquote{Betreuer} Account starten.
+        \item Mit Bewerber Account einloggen und auf die Aufgabenübersicht wechseln. Dort bleiben, bis der Timer abläuft.
+    \end{itemize}
     \\ \hline
 
-    Erwartetes Ergebnis & 
-    \lipsum[1][1]
-    \\ \hline
-\end{tabularx}
-
-\begin{tabularx}{\textwidth}[H]{|c|X|}
-    \hline
-    ID & 
-    \lipsum[1][1]
-    \\ \hline
-    
-    Beschreibung & 
-    \lipsum[1][1]
-    \\ \hline
-
-    Vorraussetzung & 
-    \lipsum[1][1]
-    \\ \hline
-
-    Schritte & \lipsum[1][1]
-    \\ \hline
-
-    Erwartetes Ergebnis & 
-    \lipsum[1][1]
+    Erwartetes Ergebnis &
+    Ein Beenden des Assessments wird nach Ablauf der Zeit erzwungen und dessen Status ändert sich zu \enquote{Reviewing}.
     \\ \hline
 \end{tabularx}
