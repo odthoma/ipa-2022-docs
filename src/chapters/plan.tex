@@ -1,6 +1,5 @@
 % see A1.4
-\chapter{Planen}
-\label{ch:plan}
+\chapter{Planen} \label{ch:plan}
 
 Die Zeitplanung wird in der Abbildung \ref{fig:timeplan} oberhalb gezeigt. Die restlichen Aspekte der Planung sind in diesem Kapitel dokumentiert.
 
@@ -23,7 +22,7 @@ Diese werden von den zwei gems ActiveStorage und ActionText verwendet, welche da
 \begin{figure}[H]
     \centering
     \includegraphics[height=15cm]{images/diagrams/entity-relation.png}
-    \caption{\label{fig:erd} Entity-relationship Diagramm}
+    \caption{\label{fig:erd}Entity-relationship Diagramm}
 \end{figure}
 
 \newpage
@@ -78,10 +77,11 @@ In diesem Abschnitt folgen grobe Entwürfe der verschiedenen Ansichten der Appli
 erheblich vereinfachen und verschaffen nicht nur einen Überblick über das UI-Design, sondern auch über die genaueren
 Funktionalitäten und Benutzer-Flows der Applikation. Die Entwürfe wurden ausserdem nach den Akteuren \ref{tab:participants} kategorisiert.
 
-Beim Design wurde darauf geachtet, es möglichst minimalistisch zu halten und strikt der Aufgabenstellung zu folgen. Es wurden keine überflüssigen Elemente
-eingebaut um sowohl die Realisierung als auch die spätere Nutzung der Applikation zu vereinfachen.
+Bei den Designentwürfen wurde darauf geachtet, es möglichst minimalistisch zu halten und strikt der Aufgabenstellung zu folgen. 
+Es wurden keine überflüssigen Elemente eingebaut um sowohl die Realisierung als auch die spätere Nutzung der Applikation zu vereinfachen.
 
-Ausserdem wurde das UI in englisch gestaltet, da es die Firmensprache in der Renuo AG ist.
+Ausserdem soll das UI, wie auch schon in den Entwürfen gezeigt wird, vorerst in Englisch umgesetzt werden. Die offizielle Firmensprache
+in der Renuo AG ist Englisch und daher 
 
 \subsection{Bewerber}
 \begin{figure}[H]
@@ -125,10 +125,12 @@ Das Testkonzept beschreibt, wie und mit welchen Werkzeugen das Resultat auf sein
 
 Grundsätzlich wird versucht eine Testabdeckung von 100\% durch automatisierte Tests zu erreichen. Die einzelnen
 Ziele/Meilensteine der Realisierungsphase werden in dieser PA testgetrieben implementiert. Das heisst, es werden zu Beginn
-Unit- und Integrationtests geschrieben und erst dann wird die eigentliche Funktionalität implementiert, bis alle Tests bestehen. Dies ermöglicht
-ein effizientes arbeiten, da über die exakte Implementation bereits im Vorraus nachgedacht wurde und es garantiert immer eine vollständige Testabdeckung.
+Unit- und Integrationtests geschrieben und erst dann wird die eigentliche Funktionalität implementiert, bis alle Tests erfolgreich durchlaufen. Dadurch wird
+bereits im Vorraus über die genauere Implementation nachgedacht und es garantiert immer eine vollständige Testabdeckung.
 
-Als Testmittel werden folgende Softwarebibliotheken eingesetzt:
+Bei jedem push auf das GitHub Repository wird der Code die CI/CD Pipelines auf einer modernen Linux-Umgebung durchlaufen.
+
+Als Testmittel werden ausserdem folgende Softwarebibliotheken eingesetzt:
 \begin{itemize}
     \item RSpec
     \item Capybara
@@ -149,15 +151,17 @@ Die Controller werden per RSpec Integration-Test getestet. So werden alle Kompon
 nach ganz unten getestet und es wird eine korrekte Integration der darunterliegenden Komponenten sichergestellt.
 
 \subsubsection{System Tests}
-Für die einzelnen Flows aller Akteure werden System Tests mit Capybara geschrieben.
-Diese öffnen einen headless Chromium Browser und klicken sich automatisiert durch eine im Vorraus definierte Sequenz durch.
+Für die einzelnen Benutzer-Flows aller Akteure werden System Tests mit Capybara geschrieben.
+Diese öffnen einen headless Chromium Webbrowser und klicken sich automatisiert durch eine im Vorraus definierte Sequenz durch.
+Dabei werden keine Sonderfälle, sondern lediglich die Happy-Paths getestet.
 
 \newpage
 
 \subsection{Manuelle Tests}
 
-Die automatisierten Tests decken bereits den grössten Teil der Applikation ab, jedoch gibt es dennoch Teile, die nur im Kontext
+Die automatisierten Tests decken bereits die wichtigsten Funktionalitäten ab, jedoch gibt es dennoch Teile in der Applikation, die nur im Kontext
 des Gesamtsystems getestet werden können. Die folgenden manuellen Tests sollen demnach die vollständige Funktionalität und Integration in die Produktions-Umgebung sicherstellen.
+Diese werden auf der lokalen Umbegubg des Kandidaten \ref{sec:tools} ausgeführt.
 
 \begin{tabularx}{\textwidth}[H]{|c|X|}
     \hline
