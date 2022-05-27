@@ -2,34 +2,42 @@
 
 \begin{tabularx}{\textwidth}[H]{|c|X|}
     \hline
-    Erledigte Arbeiten &
+    Erledigte Arbeiten         &
     \textbf{Vormittag:}
     \begin{itemize}
-        \item
+        \item Abschliessen der CRUD Implementation Assessments/Tasks
+        \item Authentifizierung mittels Devise Implementieren
     \end{itemize}
     \textbf{Nachmittag:}
     \begin{itemize}
-        \item
+        \item Einladen von Bewerbern implementieren
+        \item Start der Umsetzung des Bewerber-Flows, Views gestalten
     \end{itemize}
     \\ \hline
 
-    Erreichte Ziele &
+    Erreichte Ziele            &
     \begin{itemize}
-        \item
+        \item CRUD von Assessments und Tasks fertigstellen
+        \item Authentifizierung fertigstellen und testen
     \end{itemize}
     \\ \hline
 
-    Aufgetretene Probleme &
-    Keine
+    Aufgetretene Probleme      &
+    Es gab einige Probleme bei der Implementation des CRUD von assessments/tasks, da diese \enquote{nested routes} sind.
+    Nach dem Nachlesen in der Dokumentation ist mir der Bug aufgefallen und konnte schnell behoben werden.
     \\ \hline
 
-    Durchgeführte Tests &
-    Noch keine
+    Durchgeführte Tests        &
+    TDD automatisierte Tests bei der Implementation der Controller- und Model-Klassen,
+    System Test für login/logout und die default \enquote{root routes}. CI-Pipelines durchlaufen mit Erfolg.
     \\ \hline
 
-    Wissensbeschaffung &
+    Wissensbeschaffung         &
     \begin{description}
-        \item
+        \item[RailsGuides] Dokumentation zu Routing
+        \item[PkOrg] Einsehen der genauen Detailspezifikationen
+        \item[GitHub - Devise] README lesen für das Routing und Generieren von custom Controller-Klassen
+        \item[Stackoverflow] Post bezüglich Lokalisierung von Zeit/Datum Formaten
     \end{description}
     \\ \hline
 
@@ -42,10 +50,13 @@
     \\ \hline
 
     Vergleich mit dem Zeitplan &
-
+    Für die Implementation des CRUD's habe ich etwas länger gebraucht als geplant, allerdings
+    bin ich immer noch gut im Zeitplan und denke, dass ich diese Fehlplanung gut wieder einholen kann.
     \\ \hline
 
-    Reflexion &
-
+    Reflexion                  &
+    Im Grossen und Ganzen bin ich sehr zufrieden mit dem heutigen Tag, da ich mich ausschliesslich
+    mit dem Programmieren beschäftigen konnte und mir die Arbeit an der Umsetzung grossen Spass macht.
+    Nach der Implementation des Flows von Bewerbern werde ich versuchen den jetzigen Stand zu dokumentieren.
     \\ \hline
 \end{tabularx}
