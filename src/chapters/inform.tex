@@ -6,23 +6,23 @@
 Das Projekt wird nach der Projektmanagementmethode \emph{IPERKA} abgewickelt. Diese Methode eignet sich besonders gut
 für ein derartiges Projekt, da das Projekt in einer einzigen Iteration innerhalb von 10 Tagen wasserfallartig realisiert werden soll.
 
-\subsection{Arbeitspakete}
+\subsection{Verfeinerung}
 
-Der Auftrag kann in folgende Arbeitspakete aufgeteilt und nach den sechs Phasen der gewählten Projektmanagementmethode gegliedert werden:
+Der Auftrag kann in folgende Arbeitspakete aufgeteilt und nach den sechs Phasen der gewählten Projektmanagementmethode gegliedert werden.
+Es werden jeweils einzelne Anforderungen aus \ref{sec:task-detail} referenziert, um sicherzustellen, dass alle Anforderungen eingeteilt wurden.
 
 \begin{itemize}
     \item \textbf{I}nformieren: Was soll getan werden? (\hyperref[ch:inform]{Kapitel \ref*{ch:inform}})
           \begin{description}
               \item[AP1: Anforderungen analysieren] Der Auftrag wird analysiert und daraus einzelne Arbeitspakete abgeleitet.
-              \item[AP2: Einordnung des Systems in das Gesamtsystem] Das System, dessen Schnittstellen und die Akteure werden analysiert.
+              \item[AP2: Einordnung des Systems in das Gesamtsystem {\normalfont\emph{(N1, N2)}}] Das Kernsystem, dessen Schnittstellen und die mit dem System interagierenden Akteure werden analysiert.
           \end{description}
     \item \textbf{P}lanen: Welche Lösungswege gibt es und wie kann man vorgehen? (\hyperref[ch:plan]{Kapitel \ref*{ch:plan}})
           \begin{description}
-              \item[AP3: Anwendungsfälle definieren] Funktionalitäten der Software werden ausgehend von den Benutzerrollen dargestellt.
-              \item[AP4: Datenmodelle erstellen] Aufgrund der Auftragsbeschreibung werden Entitäten definiert und deren Verhältnis zueinander aufgezeigt.
-              \item[AP5: Zustandsdiagramm erstellen] Die Zustände (States) einer Assessment-Session und die dazwischenliegenden Übergänge werden dargestellt.
-              \item[AP6: Testkonzept] Wie und was wird getestet? Testfälle werden definiert und verschiedenen Arten von Tests aufgezeigt.
-              \item[AP7: UI-Design] Konzepte der drei Benutzer-Flows und grobe UI-Designs einzelner Seiten erstellen.
+              \item[AP4: Datenmodelle erstellen {\normalfont\emph{(N6)}}] Aufgrund der Auftragsbeschreibung werden Entitäten definiert und deren Verhältnis zueinander aufgezeigt. Dazu wird sowohl ein Konzeptionelles als auch ein physisches Modell erstellt.
+              \item[AP5: Zustandsdiagramm erstellen {\normalfont\emph{(N6)}}] Die Zustände (States) einer Assessment-Session und die dazwischenliegenden Übergänge werden dargestellt. Dadurch soll der \enquote{Fluss} des Prozesses vereinfacht dargestellt werden.
+              \item[AP6: Testkonzept {\normalfont\emph{(N7, N8)}}] Wie und was wird getestet? Testfälle werden definiert und verschiedenen Arten von Tests/Testmitteln aufgezeigt.
+              \item[AP7: UI-Design {\normalfont\emph{(N5)}}] Konzepte der drei Benutzer-Flows und grobe UI-Designs einzelner Seiten erstellen.
           \end{description}
     \item \textbf{E}ntscheiden: Für welches Vorgehen entscheiden man sich? (\hyperref[ch:decide]{Kapitel \ref*{ch:decide}})
           \begin{description}
@@ -31,19 +31,21 @@ Der Auftrag kann in folgende Arbeitspakete aufgeteilt und nach den sechs Phasen 
     \item \textbf{R}ealisieren: Die eigentliche Umsetzung des Projektes (\hyperref[ch:implement]{Kapitel \ref*{ch:implement}})
           \begin{description}
               \item[AP9: Datenmodell] Umsetzung des Datenmodells, welches in der Planungsphase erstellt wurde.
-              \item[AP10: Benutzerrollen] Authentifizierung und Autorisierung verschiedener Benutzerrollen ermöglichen.
-              \item[AP11: Benutzer-Flows] Realisation der drei verschiedenen Benutzer-Flows.
-              \item[AP12: E-Mails] E-Mail Benachrichtigungen und Einladungen für die Bewerber umsetzen.
-              \item[AP13: UI-Design] Umsetzung und Verbesserung des UI/UX basierend auf den Mockups, die in der Planungsphase erstellt wurden.
+              \item[AP10: Benutzerrollen {\normalfont\emph{(F1, N3)}}] Authentifizierung und Autorisierung verschiedener Benutzerrollen ermöglichen.
+              \item[AP11: Betreuer-Flow - Erstellen und konfigurieren eines Assessments {\normalfont\emph{(F5, F6, F7)}}] CRUD von Assessments und Tasks, Benutzereinladung über das gewählte Authentifizierungssystem implementieren
+              \item[AP12: Bewerber-Flow - Lösen eines Assessments {\normalfont\emph{(F2, F3, F4, N4)}}] Upload von Lösungen und den korrekten Durchlauf durch das Assessment implementieren inkl. Zeitbegrenzung
+              \item[AP13: Korrektor-Flow - Korrigieren und bewerten eines Assessments {\normalfont\emph{(F8, F9, F10)}}] Das Einsehen von Lösungen und erstellen von Korrektur-Kommentaren implementieren. Nach der Korrektur soll ein Bewerber diese einsehen können.
+              \item[AP14: E-Mails {\normalfont\emph{(F7)}}] E-Mail Benachrichtigungen und Einladungen für die Bewerber umsetzen.
+              \item[AP15: UI-Design {\normalfont\emph{(N5)}}] Umsetzung und Verbesserung des UI/UX basierend auf den Mockups, die in der Planungsphase erstellt wurden.
           \end{description}
-    \item \textbf{K}ontrollieren: Wurde das Projekt korrekt umgesetzt? (\hyperref[ch:check]{Kapitel \ref*{ch:check}})
+    \item \textbf{K}ontrollieren: Wurde das Projekt korrekt umgesetzt? Durchlaufen die Tests? (\hyperref[ch:check]{Kapitel \ref*{ch:check}})
           \begin{description}
-              \item[AP14: Anforderungen überprüfen] Die Anforderungen werden nochmals analysiert - wurde alles beachtet?
-              \item[AP15: Testing] Sowohl manuelle als auch automatisierte Tests werden durchgeführt und ein jeweiliger Testbericht wird erfasst.
+              \item[AP16: Anforderungen überprüfen] Die Anforderungen werden nochmals analysiert - wurde alles beachtet?
+              \item[AP17: Testing] Sowohl manuelle als auch automatisierte Tests werden durchgeführt und ein jeweiliger Testbericht wird erfasst. Auch der Codestyle/Linting wird überprüft.
           \end{description}
     \item \textbf{A}uswerten: Was ist gelungen, was nicht? (\hyperref[ch:evaluate]{Kapitel \ref*{ch:evaluate}})
           \begin{description}
-              \item[AP16: Reflektieren] Das Endergebnis der PA wird bezogen auf die Aufgabenstellung evaluiert und der Arbeitsprozess reflektiert.
+              \item[AP18: Reflektieren] Das Endergebnis der PA wird bezogen auf die Aufgabenstellung evaluiert und der Arbeitsprozess reflektiert.
           \end{description}
 \end{itemize}
 
@@ -89,7 +91,7 @@ abgearbeitet werden sollen.
 \subsubsection{PostgreSQL}
 PostgreSQL - auch \enquote{Postgres} genannt, ist die go-to Datenbank für Ruby on Rails Applikationen,
 welche auf Heroku gehostet werden sollen. Eine Instanz der Datenbak wird neben der Rails Application ebenfalls auf einem
-Heroku Cloud-Server als Add-On gehostet. Diese interagiert über einen PSQL Datenbanktreiber mit dem ORM gem \emph{ActiveRecord}.
+Heroku Cloud-Server als Add-On gehostet. Diese interagiert über einen PSQL Datenbanktreiber mit dem ORM \gls{gem} \emph{ActiveRecord}.
 Demnach ist dieses gem dafür züständig, automatisch SQL-Abfragen zu generieren und die daraus resultierenden Records zu Model-Klassen zu mappen und umgekehrt.
 
 \subsubsection{Sparkpost}
@@ -105,12 +107,14 @@ Darauf sollen die Assessment-Lösungen der Bewerber hochgeladen werden.
 
 \subsection{Akteure}
 
-Mit dem System interagieren die folgenden Akteure:
+Mit dem System interagieren zudem die folgenden Akteure:
 
 \begin{table}[H]
+    \renewcommand{\arraystretch}{}
+    \rowcolors{2}{gray!10}{white}
     \begin{tabular}{|l|l|}
         \hline
-        \rowcolor{PrimaryColor!50} Akteur & Beschreibung                                       \\
+        \rowcolor{PrimaryColor!30} Akteur & Beschreibung                                       \\
         \hline
         Bewerber                          & Durchläuft ein Assessment                          \\
         \hline

@@ -88,8 +88,9 @@
 \input{chapters/timeplan}
 \input{chapters/journal/journal}
 
-% set alternating table colors
-\rowcolors{2}{gray!10}{white}
+% global table properties
+\renewcommand{\arraystretch}{1.5}
+\newcolumntype{s}{>{\columncolor{PrimaryColor!25}} c}
 
 % see B6.1a
 % create a phantom toc entry for "Projekt"
@@ -99,7 +100,7 @@
 \input{chapters/inform}
 \input{chapters/plan}
 \input{chapters/decide}
-\input{chapters/implement}
+\input{chapters/implement/implement}
 \input{chapters/check}
 \input{chapters/evaluate}
 
@@ -117,10 +118,10 @@
 \listoffigures
 
 % create a phantom toc entry for the literature table
-\clearpage\phantomsection\addcontentsline{toc}{part}{Literaturverzeichnis}
+\clearpage\phantomsection\addcontentsline{toc}{part}{Literatur- und Quellenverzeichnis}
 
 % generate bibliography
-\printbibliography[title=Literaturverzeichnis]
+\printbibliography[title=Literatur- und Quellenverzeichnis]
 
 % defines the beginning of the appendix
 \appendix

@@ -1,74 +1,153 @@
 \chapter{Entscheiden} \label{ch:decide}
 
-Dieses Kapitel soll
+Die meisten Entscheidungen bezogen auf das Gesamtsystem und die zu verwendenden Softwarebibliotheken werden bereits durch das
+\emph{Renuo Application-Setup-Guide} abgenommen. Dennoch gibt es verschiedene Varianten von Softwarebibliotheken und Konzepten,
+zwischen denen in diesem Kapitel möglichst objektiv entschieden werden soll. Dazu werden simple Nutzwertanalysen eingesetzt.
 
-Dazu werden Nutzwertanalysen verwendet, um so möglichst objektive Entscheidungen treffen zu können. Die Analysen vergleichen jeweils
-zwei Varianten von Softwarebibliotheken miteinander, die für die jeweiligen Problemstellungen infrage kommen würden. Die Kriterien werden
-mittels eines Punktesystems von 0 bis 5 Punkten bewertet, welche im Anschluss zusammengezählt werden.
-Jedes dieser Kriterien hat eine andere Gewichtung, bezogen auf deren Wichtigkeit in dieser PA.
-
-Dabei spielen die bereits vorhandenen \emph{Kentnisse} über die einzelnen eine sehr grosse Rolle, da das Projekt in einer sehr kurzen Zeit realisiert werden soll.
+Diese Nutzwertanalysen vergleichen die vorliegenden Varianten basierend auf 6 Kriterien, welche anhand eines Punktesystems mit jeweils 0 bis 5 Punkten bewertet werden.
+Jedes dieser Kriterien hat eine andere Gewichtung, bezogen auf deren Wichtigkeit in der Umsetzung dieser PA.
+Dabei spielen die bestehenden Kenntnisse des Kandidaten über die einzelnen Varianten eine sehr grosse Rolle,
+da das Projekt in einer sehr kurzen Zeit umgesetzt werden soll und werden daher besonders stark gewichtet.
 
 \section{State management}
-Um die in die in der  Abbildung \ref{fig:state-diagram} beschriebenen Zustände zu verwalten,
-ergibt es durchaus Sinn, das Konzept einer \emph{State-Machine} einzuführen. In der Ruby on Rails Welt
-gibt es mehrere Softwarebibliotheken, die dieses Konzept umsetzten.
+Um das Verwalten der in dem Diagramm \ref{fig:state-diagram} beschriebenen Zustände eises Assessments zu vereinfachen,
+wird das Konzept einer \emph{State-Machine} eingeführt. Eine solche \enquote{Zustandsmaschine} liest eine Reihe von Eingaben
+und ändert den Zustand des jeweiligen Assessments bei jeder Eingabe entsprechend. Ausserdem ermöglicht dieses Konzept einen nachvollziehbaren
+Fluss und garantiert einen sauberen, lesbaren Code. In der Ruby-Welt gibt es Unmengen an Softwarebibliotheken, die ein solches Konzept implementieren.
+Für diesen Entscheid wurden zwei der beliebtesten gems basierend auf deren \enquote{GitHub Stars} ausgewählt.
 
-\subsubsection{Variante 1: \enquote{AASM}}
+\subsubsection{Variante 1: \enquote{stateful\_enum}}
 
-\subsubsection{Variante 2: \enquote{Stateful Enum}}
+Diese Variante ermöglicht eine perfekte Integration in das Framework, indem sie auf der \emph{ActiveRecord::Enum} \gls{dsl} aufbaut und somit eine einfache Syntax bietet.
+Es werden \emph{events} definiert, welche Übergänge zwischen Zuständen beschreiben und einen optionalen \emph{before} Callback haben.
+
+\begin{figure}[H]
+\begin{codebox}
+\begin{minted}{ruby}
+class Bug < ApplicationRecord
+  enum status: { unassigned: 0, assigned: 1, resolved: 2 } do
+    event :assign do
+      transition :unassigned => :assigned
+    end
+
+    event :resolve do
+      before do
+        self.resolved_at = Time.zone.now
+      end
+      transition [:unassigned, :assigned] => :resolved
+    end
+  end
+end
+\end{minted}
+\end{codebox}
+\caption{\label{fig:stateful-enum-example}Beispiel einer Zustandsmaschine mit dem \enquote{stateful\_enum} gem \cite{stateful_enum_github}}
+\end{figure}
+
+\subsubsection{Variante 2: \enquote{state\_machines}}
+
+Mit fast 100 Millionen Downloads \cite{statstate_machines-activemodel_rubygems} ist diese Variante bestimmt eine der Bekanntesten Lösungen für Zustandsmaschinen in Ruby.
+Das gem ist sehr umfangreich und bietet viele Funktionalitäten in einer eigenen DSL. Es gibt verschiedenste Forks dieses gems,
+die auch perfekt mit dem Ruby on Rails Framework integrieren. So gibt es beispielsweise Model-Validierungen über eine \emph{ActiveModel::Validations} Integration,
+verschiedenste Arten von Callbacks, parallele Events u.v.m.
+
+\begin{figure}[H]
+\begin{codebox}
+\begin{minted}{ruby}
+class Vehicle
+  state_machine :initial => :parked do
+    before_transition :parked => any - :parked, :do => :put_on_seatbelt
+    after_transition any => :parked do |vehicle, transition|
+      vehicle.seatbelt = 'off'
+    end
+    around_transition :benchmark
+
+    event :ignite do
+      transition :parked => :idling
+    end
+
+    state :first_gear, :second_gear do
+      validates_presence_of :seatbelt_on
+    end
+  end
+
+  ...
+end
+\end{minted}
+\end{codebox}
+\caption{\label{fig:state-machine-example}Beispiel einer Zustandsmaschine mit dem \enquote{state\_machines} gem \cite{state_machines-activemodel_github}}
+\end{figure}
 
 \subsubsection{Nutzwertanalyse}
 
-Aus der folgenden Nutzwertanalyse
+Die zwei Varianten unterscheiden sich sehr stark durch den Umfang an Features die sie bieten,
+jedoch wird für diese PA nur eine simple Form einer Zustandsmaschine benötigt. Durch die einfach gehaltene Syntax
+und die gute Integration in \emph{ActiveRecord::Enum} ist die 1. Variante der klare Gewinner der folgenden Nutzwertanalyse.
 
-\begin{tabular}{|l|l|l|l|}
-    \hline
-    \rowcolor{PrimaryColor!50} Kriterium & Gewichtung & Variante 1 & Variante 2 \\
-    \hline
-    Bekanntheit                          & 5 \%       & 4          & 2          \\
-    \hline
-    Kenntnisse                           & 50 \%      & 0          & 0          \\
-    \hline
-    Dokumentationen/Anleitungen          & 15 \%      & 5          & 5          \\
-    \hline
-    Komplexität                          & 10 \%      & 2          & 3          \\
-    \hline
-    Umfang/Features                      & 20 \%      & 4          & 2          \\
-    \hline
-    \rowcolor{PrimaryColor!50}           &            &            &            \\
-    \hline
-    SUMME inkl. Gewichtung               &            &            &            \\
-    \hline
-\end{tabular}
+\begin{table}[H]
+    \rowcolors{2}{gray!10}{white}
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \rowcolor{PrimaryColor!30} \textbf{Kriterium} & \textbf{Gewichtung} & \textbf{Variante 1} & \textbf{Variante 2} \\
+        \hline
+        Kenntnisse                                    & 40 \%               & 1                   & 0                   \\
+        \hline
+        Dokumentationen/Anleitungen                   & 20 \%               & 5                   & 5                   \\
+        \hline
+        Komplexität                                   & 10 \%               & 5                   & 2                   \\
+        \hline
+        Umfang/Features                               & 15 \%               & 2                   & 5                   \\
+        \hline
+        Integration in das Framework                  & 15 \%               & 5                   & 4                   \\
+        \hline
+        \hline
+        SUMME \emph{inkl. Gewichtung}                 & \textbf{100 \%}     & \textbf{2.95}       & \textbf{2.55}       \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\section{Authorisierung}
+\newpage
 
+\section{Autorisierung}
+
+Damit ein Benutzer mit der Rolle \enquote{candidate} nur Ressourcen einsehen und bearbeiten kann, zu denen dieser berechtigt ist,
+wird ein System für eine Autorisierung benötigt. Diese Autorisierungsbibliothek sollte mit dem Authentifizierungs gem \emph{Devise} kompatibel sein, da dieses in dieser PA eingesetzt wird. 
+Ausserdem sollte die Implementation möglichst einfach mit den in \ref{} beschriebenen Testmitteln testbar sein.
+Auch für diesen Variantenvergleich wurden zwei der beliebtesten Bibliotheken herbeigezogen, welche den genannten Kriterien entsprechen.
 
 \subsubsection{Variante 1: \enquote{CanCanCan}}
 
+Alle Berechtigungen können in \emph{CanCanCan} in einer einzigen \enquote{Fähigkeitsdatei} definiert werden, sodass die Berechtigungslogik für einfache Wartung und Tests an einer Stelle bleibt. 
+Ausserdem stellt die Bibliothek viele Helper zur Verfügung, um diese Berechtigungen in verschiedensten orten der Applikation abzufragen. Auch wird das Testing mittels \emph{RSpec} durch mitgelieferte \enquote{Matcher} erheblich erleichtert.
+
 \subsubsection{Variante 2: \enquote{Pundit}}
+
+\emph{Pundit} definiert sogenannte \enquote{Policies} für einzelne Ruby-Klassen. Das heisst, es gibt nicht nur eine einzelne \enquote{Fähigkeitsdatei},
+sondern die Berechtigungen werden in mehrere Dateien aufgeteilt und explizit für jedes Model definiert. Jedoch können auch globale Policies definiert werden.
+Auch stehen zwar sehr ähnliche, jedoch nicht so viele Helper-Klassen zur verfügung wie in dem \emph{CanCanCan} gem. Auch \emph{RSpec Matcher} kommen nicht out-of-the-box mit dem gem mitgeliefert.
 
 \subsubsection{Nutzwertanalyse}
 
-Aus der folgenden Nutzwertanalyse
+Der Gewinner der folgenden Nutzwertanalyse ist eindeutig die 1. Variante. Die beiden gems unterscheiden sich kaum durch deren Umfang an Features und schlussendlich waren vor allem die Vorkenntnisse
+ausschlaggebend für diese Entscheidung. Gearbeitet hat der Kandidat bereits mit beiden gems, jedoch kommt \emph{CanCanCan} in Projekten der Renuo AG wesentlich häufiger zum Einsatz.
 
-\begin{tabular}{|l|l|l|l|}
-    \hline
-    \rowcolor{PrimaryColor!50} Kriterium              & Gewichtung & Variante 1 & Variante 2 \\
-    \hline
-    Bekanntheit                                       &            &            &            \\
-    \hline
-    Kenntnisse                                        &            &            &            \\
-    \hline
-    Dokumentationen/Anleitungen                       &            &            &            \\
-    \hline
-    Komplexität                                       &            &            &            \\
-    \hline
-    Umfang/Features                                   &            &            &            \\
-    \hline
-    \rowcolor{PrimaryColor!50} SUMME inkl. Gewichtung &            &            &            \\
-    \hline
-    Nutzwert                                          &            &            &            \\
-    \hline
-\end{tabular}
+\begin{table}[H]
+    \rowcolors{2}{gray!10}{white}
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \rowcolor{PrimaryColor!30} \textbf{Kriterium} & \textbf{Gewichtung} & \textbf{Variante 1} & \textbf{Variante 2} \\
+        \hline
+        Kenntnisse                                    & 40 \%               & 5                   & 2                   \\
+        \hline
+        Dokumentationen/Anleitungen                   & 20 \%               & 5                   & 5                   \\
+        \hline
+        Komplexität                                   & 10 \%               & 4                   & 3                   \\
+        \hline
+        Umfang/Features                               & 15 \%               & 3                   & 4                   \\
+        \hline
+        Integration in das Framework                  & 15 \%               & 5                   & 5                   \\
+        \hline
+        \hline
+        SUMME \emph{inkl. Gewichtung}                 & \textbf{100 \%}     & \textbf{4.6}        & \textbf{3.45}       \\
+        \hline
+    \end{tabular}
+\end{table}
