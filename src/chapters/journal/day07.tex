@@ -2,34 +2,43 @@
 
 \begin{tabularx}{\textwidth}[H]{|c|X|}
     \hline
-    Erledigte Arbeiten &
+    Erledigte Arbeiten         &
     \textbf{Vormittag:}
     \begin{itemize}
-        \item
+        \item Verfassen von Korrektur-Kommentaren implementieren
+        \item Sidekiq background-job erstellt, der automatisch das Assessment beendet
+        \item Verbesserung des State-Managements und weitere Anpassungen für
     \end{itemize}
     \textbf{Nachmittag:}
     \begin{itemize}
-        \item
+        \item Pagination für das Navigieren zwischen den Lösungen
+        \item System-Tests schreiben für den Bewerber-Flow
+        \item IPA-Bericht weiterführen im Kapitel \enquote{Realisieren}
     \end{itemize}
     \\ \hline
 
-    Erreichte Ziele &
+    Erreichte Ziele            &
     \begin{itemize}
-        \item
+        \item Die Korrektur des Assessments durch den \enquote{Korrektor} ist in einem funktionierenden Zustand
+        \item Das Assessment beendet sich automatisch durch einen BackgrounJob
     \end{itemize}
     \\ \hline
 
-    Aufgetretene Probleme &
+    Aufgetretene Probleme      &
     Keine
     \\ \hline
 
-    Durchgeführte Tests &
-    Noch keine
+    Durchgeführte Tests        &
+    Der Happy-Path vom \enquote{Bewerber} wurde mit einen System-Test getestet und Job- und Model-Klassen wurden über Unit-Tests getestet.
+    Auch heute abend ist die CI erfolgreich durchgelaufen mit einer Code-Coverage von 100\%.
     \\ \hline
 
-    Wissensbeschaffung &
+    Wissensbeschaffung         &
     \begin{description}
-        \item
+        \item[Hotwired] \enquote{Handbuch} von StimulusJS + TurboJS
+        \item[GitHub- capybara] Nachschlagen der Capybara DSL im README für das Erstellen der System-tests
+        \item[RailsGuides] Dokumentation über ActiveJob scheduling
+        \item[Relishapp] RSpec Dokumentation für das Unit-Testing von background Jobs
     \end{description}
     \\ \hline
 
@@ -42,10 +51,11 @@
     \\ \hline
 
     Vergleich mit dem Zeitplan &
-
+    Dadurch, dass ich heute Abend ein weig Zeit investiert habe, um meinen jetzigen Stand zu dokumentieren, bin ich wieder relativ gut im Zeitplan.
     \\ \hline
 
-    Reflexion &
-
+    Reflexion                  &
+    Ich konnte mich heute vollständig auf das Programmieren konzentrieren und die Umsetzung der besagten Features hat mir grossen Spass gemacht.
+    Es gibt noch einige Sachen zu erledigen, jedoch muss ich mich langsam auf den IPA-Breicht konzentrieren.
     \\ \hline
 \end{tabularx}
