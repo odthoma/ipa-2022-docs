@@ -7,20 +7,20 @@
     \begin{itemize}
         \item Verfassen von Korrektur-Kommentaren implementieren
         \item Sidekiq background-job erstellt, der automatisch das Assessment beendet
-        \item Verbesserung des State-Managements und weitere Anpassungen für
+        \item System-Specs für den Bewerber-Flow geschrieben (Einladung annehmen, File-Upload)
     \end{itemize}
     \textbf{Nachmittag:}
     \begin{itemize}
         \item Pagination für das Navigieren zwischen den Lösungen
-        \item System-Tests schreiben für den Bewerber-Flow
-        \item IPA-Bericht weiterführen im Kapitel \enquote{Realisieren}
+        \item Einladungs-Mailer angepasst und devise\_invitable Link conditionally hinzugefügt
+        \item Verbesserung des State-Managements und weitere kleine Anpassungen im UI
     \end{itemize}
     \\ \hline
 
     Erreichte Ziele            &
     \begin{itemize}
         \item Die Korrektur des Assessments durch den \enquote{Korrektor} ist in einem funktionierenden Zustand
-        \item Das Assessment beendet sich automatisch durch einen BackgrounJob
+        \item Das Assessment beendet sich automatisch durch einen Background-Job
     \end{itemize}
     \\ \hline
 
@@ -29,14 +29,14 @@
     \\ \hline
 
     Durchgeführte Tests        &
-    Der Happy-Path vom \enquote{Bewerber} wurde mit einen System-Test getestet und Job- und Model-Klassen wurden über Unit-Tests getestet.
-    Auch heute abend ist die CI erfolgreich durchgelaufen mit einer Code-Coverage von 100\%.
+    Die neuen Job- und Model-Klassen wurden über Unit-Tests getestet.
+    Auch heute Abend ist die CI erfolgreich durchgelaufen mit einer Code-Coverage von 100\%.
     \\ \hline
 
     Wissensbeschaffung         &
     \begin{description}
         \item[Hotwired] \enquote{Handbuch} von StimulusJS + TurboJS
-        \item[GitHub- capybara] Nachschlagen der Capybara DSL im README für das Erstellen der System-tests
+        \item[GitHub- Capybara] Nachschlagen der Capybara DSL im README für das Erstellen der System-tests
         \item[RailsGuides] Dokumentation über ActiveJob scheduling
         \item[Relishapp] RSpec Dokumentation für das Unit-Testing von background Jobs
     \end{description}
