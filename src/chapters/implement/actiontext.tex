@@ -7,9 +7,9 @@ Diese enthält neben einigen praktischen Helpern auch den JS Trix-Editor, der al
 Der vom Trix-Editor generierte Rich-Text-Inhalt wird im HTML-Format gespeichert und eingebettete Bilder (oder andere Anhänge) werden automatisch durch ActiveStorage verwaltet.
 
 Über den generator-command \mintinline{bash}{rails g action_text:install} werden die notwendigen migrationen erstellt und
-der Trix-Editor wird über den yarn JS Package-Manager installiert. Dann kann 
+der Trix-Editor wird über den yarn JS Package-Manager installiert. Dann wurde lediglich die \mintinline{ruby}{has_rich_text} Funktion
+zu dem Model hinzugefügt. 
 
-\begin{figure}[H]
 \begin{codebox}
 \begin{minted}{ruby}
 class Task < ApplicationRecord
@@ -19,9 +19,7 @@ class Task < ApplicationRecord
 end
 \end{minted}
 \end{codebox}
-\end{figure}
 
-\begin{figure}[H]
 \begin{codebox}
 \begin{minted}{ruby}
 = simple_form_for [@assessment, @task] do |f|
@@ -29,9 +27,9 @@ end
     = f.button :submit
 \end{minted}
 \end{codebox}
-\end{figure}
 
-Rich-Text Inhalte wurden sowohl für Aufgabenbeschreibungen als auch 
+Rich-Text Inhalte wurden sowohl für die Aufgabenbeschreibung als auch die Korrektur-Kommentare umgesetzt und sehen
+in den Formularen so aus:
 
 \begin{figure}[H]
   \centering
