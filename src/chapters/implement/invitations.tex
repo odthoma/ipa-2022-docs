@@ -1,23 +1,34 @@
 \section{Assessment-Einladungen}
 
-Ein Admin soll einen Bewerber zu einem Assessment einladen können.
+\subsection{Hinzufügen zum Assessment}
 
+Durch den Admin sollen Bewerber per E-Mail-Adresse zu einem Assessment eingeladen werden können. Dazu wird
+das \enquote{devise\_invitable} Gem verwendet, welches perfekt mit dem verwendeten Authentifizierungssystem zusammenspielt.
 
-
-Das \emph{devise\_invitable} gem wird als eine Grundlage verwendet, 
-Das gem bietet eine gute Grundlage fasd und es integriert perfekt mit Devise
-
-
-Damit ein Bewerber zu einem 
+Durch die Installation werden automatisch die benötigten Felder auf der \emph{user} Tabelle durch eine ActiveRecord Datenbankmigration 
+erstellt. Dann kann die Bibliothek wie eine Devise-Strategy gehandhabt werden:
 
 \begin{codebox}
 \begin{minted}{ruby}
-  resources :assessments do
-    resources :invitations, only: %i[new create]
-    ...
+class User < ApplicationRecord
+  devise :invitable, ...
 end
 \end{minted}
 \end{codebox}
+
+Das Gem dient lediglich als eine Grundlage und muss für den geforderten Use-Case entsprechend angepasst werden.
+Denn standardmässig sind nur \enquote{globale} Einladungen möglich.
+
+Es gibt zwei Fälle die eintreten können:
+\begin{itemize}
+  \item Der Benutzer existiert noch nicht und muss sich erst noch einen neuen Account erstellen
+  \item Der Benutzer hat schonmal an einem Assessment teilgenommen und existiert bereits
+\end{itemize}
+
+Es wurde ein eigener \emph{invitations\_controller.rb} geschrieben, dessen \emph{create} Action zuerst überprüft, ob ein Benutzer
+mit der angegebenen E-Mail-Adresse bereits in der Datenbank existiert. Wenn nicht, wird über die devise\_invitable Funtkion \mintinline{ruby}{User.invite!} 
+ein neuer Benutzer erstellt und automatisch ein \emph{invitation\_token} hinterlegt. Über einen Link, der diesen Token als GET-Parmaeter beinhaltet,
+kann der Benutzer sich später selbstständig ein Passwort setzen.
 
 \begin{codebox}
 \begin{minted}{ruby}
@@ -27,13 +38,48 @@ end
 \end{minted}
 \end{codebox}
 
-
 \begin{codebox}
 \begin{minted}{ruby}
 def invite_to(assessment)
   errors.add(:email, :already_in_assessment) and return if assessment.candidates.exists?(id)
   
   assessments << assessment
+  send_assessment_invitation(assessment)
 end
+\end{minted}
+\end{codebox}
+
+Im Anschluss wird das Assessment über den Shovel-Operator \mintinline{ruby}{<<} zu den Assessments des Benutzers
+hinzugefügt und eine E-Mail wird versendet.
+
+\newpage
+
+\subsection{E-Mail Benachrichtigungen}
+
+Die besagte Einladungs-E-Mail wird über eine ActionMailer Klasse versendet.
+
+\begin{codebox}
+\begin{minted}{ruby}
+def assessment_invitation(recipient, assessment, invitation_token)
+  @invitation_token = invitation_token
+  @recipient = recipient
+  @assessment = assessment
+
+  mail(to: @recipient.email,
+        subject: t('invitation_mailer.assessment_invitation.subject'),
+        reply_to: User.where(role: User.roles[:admin]).pluck(:email))
+end
+\end{minted}
+\end{codebox}
+
+Das E-Mail Template beinhaltet neben den generellen Informationen zu dem Assessment auch einen Invite-Link, über den
+sich der eingeladene Benutzer einen Account erstellen kann. Dieser wird allerdings nur gerendert, wenn noch kein Account existiert.
+So kann das selbe E-Mail für beide Fälle verwendet werden.
+
+\begin{codebox}
+\begin{minted}{ruby}
+- if @invitation_token.present?
+  p = link_to t('devise.mailer.invitation_instructions.accept'),
+      accept_user_invitation_url(invitation_token: @invitation_token)
 \end{minted}
 \end{codebox}

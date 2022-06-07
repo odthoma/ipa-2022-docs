@@ -1,0 +1,32 @@
+\section{Assessment State-Management}
+
+Eine einfache Zustandsmaschine wurde mit dem \enquote{stateful\_enum} umgesetzt. Dadurch lässt sich
+der Fluss des Zustandes von überall aus relativ einfach steuern. Wenn ein Assessment gestartet wird, wird
+im gleichen Zug der Background-Job erstellt, der das Assessment rechtzeitig beendet.
+
+\begin{codebox}
+\begin{minted}{ruby}
+enum :status, { 
+     preparing: 'preparing', open: 'open',
+     reviewing: 'reviewing', closed: 'closed' 
+  }, default: :preparing do
+  event :start do
+    before do
+      self.ends_at = Time.zone.now + duration_in_minutes.minutes
+    end
+    after do
+      EndAssessmentJob.set(wait_until: ends_at).perform_later(self)
+    end
+    transition preparing: :open
+  end
+
+  event :finish do
+    transition open: :reviewing
+  end
+
+  event :close do
+    transition reviewing: :closed
+  end
+end
+\end{minted}
+\end{codebox}

@@ -1,12 +1,12 @@
-\section{Umsetzung der Datenstruktur und CRUD}
+\section{Umsetzung der Datenstruktur}
 
 Die grundlegende Datenstruktur wurde anhand der vordefinierten Rails-Generator Commands \ref{subsec:model-generation} aufgebaut.
 Damit war der grösste Teil der Arbeit bereits erledigt und es mussten lediglich die Assoziationen in den jeweiligen Model-Klassen ergänzt werden.
 Diese werden dort durch die ActiveRecord Funktionen \mintinline{ruby}{has_many}, \mintinline{ruby}{has_one}, und \mintinline{ruby}{belongs_to} abgebildet.
 
-Zwischen einer \emph{user} und \emph{assessment} Entität herrscht eine many-to-many Assoziation, da ein Benutzer
-mehrere Assessments haben kann, welches wiederum mehrere Bewerber beinhaltet. Dafür wird die Join-Tabelle \emph{assessment\_participations}
-eingesetzt. Um nun sicherzustellen, dass ein Benutzer nur einmal in einer Assessment-Instanz vorkommen kann, wurde über eine ActiveRecord Datenbankmigration ein 
+Zwischen der \emph{user} und \emph{assessment} Tabelle herrscht eine many-to-many Assoziation, da ein Bewerber mehrere Assessments haben kann, 
+woran wiederum mehrere Bewerber teilnehmen können. Dafür wird die Join-Tabelle \emph{assessment\_participations} eingesetzt. 
+Um nun sicherzustellen, dass ein Bewerber nur einmal in einer Assessment-Instanz vorkommen kann, wurde über eine ActiveRecord Datenbankmigration ein 
 unique composite Index über beide Fremdschlüssel erstellt.
 
 \begin{codebox}
@@ -20,7 +20,7 @@ end
 
 Ausserdem sollte ein Bewerber nur eine einzige Lösung pro Aufgabe abgeben können. Dafür wurde auf der \emph{solutions}
 Tabelle ebenfalls ein unique composite Index erstellt. Beide Indizes werden auch auf Application-Level in den entsprechenden Model-Klassen
-durch Validierungen abgesichert, wodurch lesbarere Error-Messages generiert werden können.
+durch Validierungen abgesichert, wodurch lesbarere Error-Messages für die Formulare im Frontend generiert werden können.
 
 \begin{codebox}
 \begin{minted}{ruby}
@@ -38,6 +38,8 @@ class Solution < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   validates :user_id, uniqueness: { scope: :task_id }
+
+  ...
 end
 \end{minted}
 \end{codebox}
@@ -49,25 +51,65 @@ class AssessmentParticipation < ApplicationRecord
   belongs_to :user
 
   validates :user_id, uniqueness: { scope: :assessment_id }
+
+  ...
 end
 \end{minted}
 \end{codebox}
 
+\newpage
+
+\section{CRUDs}
+
 Bei Ruby on Rails handelt es sich um ein \gls{mvc} Framework. Daher wurde für alle generierten Model-Klassen
 auch eine Controller-Klasse und die entsprechenden HTML-Views erstellt. Diese folgen grösstenteils dem Rails-Standard \cite{default_controller_actions} und beinhalten einfache \gls{crud} Operationen.
+Basierend auf der Aufgabenstellung wurden nicht für jede Ressource alle vier Operationen implementiert.
 
-Funktionen in einem ActionController werden \enquote{actions} genannt. 
+Die Funktionen in einem Rails ActionController werden \enquote{Actions} genannt. Der folgende Codeausschnitt zeigt zwei dieser Actions,
+die die Erstellung eines Assessments implementieren. Ein wichtiges Konzept hierbei sind die \emph{ActionController::StrongParameters}.
+Durch diese werden die Anzahl der Felder, die bei der Erstellung eines Assessments mitgegeben werden können, limitiert. Auch dieses
+Sicherheitskonzept wurde in allen Controllern implementiert.
+
 \begin{codebox}
 \begin{minted}{ruby}
 class AssessmentsController < ApplicationController
-  def create
+  def new # GET /assessments/new
+    @assessment = Assessment.new
+  end
+
+  def create # POST /assessments
     @assessment = Assessment.new(assessment_params)
     if @assessment.save
-      redirect_to @assessment
+      redirect_to assessment_path(@assessment)
     else
       render :new, status: :unprocessable_entity
     end
   end
+
+  ...
+
+  private
+
+  def assessment_params
+    params.require(:assessment).permit(:title, :starts_at, ...)
+  end
 end
+\end{minted}
+\end{codebox}
+
+Nachdem eine Action durchlaufen ist und kein HTML-Template explizit gerendert wurde, sucht sich das Framework automatisch
+ein Template mit dem entsprechenden Namen und rendert dieses. So wird beispielsweise in der 
+oberhalb gezeigten \emph{new} Action eine Instanzvariable gesetzt und dann automatisch das \emph{views/assessments/new.html.slim} HTML-Template gerendert.
+Diese Instanzvariable kann dann in den Templates verwendet werden.
+
+So wurden für alle notwendigen Models, sprich \emph{Assessment}, \emph{Task}, \emph{Solution} und \emph{Comment} mit der Hilfe des \enquote{simple\_form} Gems
+die notwendigen Formulare erstellt.
+
+\begin{codebox}
+\begin{minted}{ruby}
+= simple_form_for @assessment do |f|
+    = f.input :title
+    = f.input :starts_at
+    = f.button :submit
 \end{minted}
 \end{codebox}

@@ -23,49 +23,39 @@ Ausserdem soll f체r den Bewerber jederzeit ersichtlich sein, wie lange dieser f�
 Daf체r wird ein JS basierter Countdown 체ber das Stimulus Framework implementiert, der die verbleibende Zeit runterz채hlt.
 
 Der Stimulus-Controller wird hier 체ber das \emph{data-controller} HTML-Attribut an das \mintinline{html}{<h3>} Element gebunden.
-Ausserdem wird das exakte DateTime, an dem das Assessment beendet wird, im Unix-Timestamp-Format an die Controller-Klasse weitergegeben.
+Ausserdem wird das exakte DateTime, an dem das Assessment beendet wird, im Unix-Timestamp-Format an die Controller-Klasse 체ber ein \emph{data-value} Attribut weitergegeben.
 
-\begin{figure}[H]
 \begin{codebox}
 \begin{minted}{html}
 h3(data-controller='assessment-time' data-assessment-time-end-value=@assessment.ends_at.to_i)
 \end{minted}
 \end{codebox}
-\end{figure}
 
-Der Timestamp kann dann im Controller als Stimulus-Value 
+Der Timestamp kann dann im Controller als Stimulus-Value verwendet werden. Dort hat man Zugriff auf dieses Value 체ber
+\mintinline{javascript}{this.endValue}.
 
-\begin{figure}[H]
 \begin{codebox}
 \begin{minted}{javascript}
-export default class extends Controller {
-  static values = { end: Number }
+static values = { end: Number }
+  
+\end{minted}
+\end{codebox}
 
-  connect () {
-    this.countdownInterval = setInterval(() => {
+Im Stimulus-Controller wird die verbleibende Zeit aus der Differenz zwischen der Endzeit und der aktuellen Zeit berechnet.
+Stimulus bietet gewisse Lifecycle-Callbacks wie \mintinline{javascript}{connect()} und \mintinline{javascript}{disconnect()},
+in denen jeweils ein Intervall gestartet oder gestoppt wird. Der Textinhalt vom \mintinline{html}{<h3>} Element, mit dem der Controller
+verbunden ist, wird dann einfach sek체ndlich durch die berechnete Zeit ersetzt.
+
+\begin{codebox}
+\begin{minted}{javascript}
+connect () {
+  this.countdownInterval = setInterval(() => {
       this.element.innerText = this.parsedTime;
     }, 1000);
-  }
+}
 
-  disconnect () {
-    clearInterval(this.countdownInterval);
-  }
-
-  get parsedTime () {
-    const remainingSeconds = this.endValue * 1000 - Date.now();
-    
-    ...
-    
-    return `${hours}:${minutes}:${seconds}`;
-  }
-
-  ...
+disconnect () {
+  clearInterval(this.countdownInterval);
 }
 \end{minted}
 \end{codebox}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/countdown.png}
-\end{figure}
