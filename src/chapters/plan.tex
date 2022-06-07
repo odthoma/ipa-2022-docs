@@ -27,7 +27,7 @@ Sowohl der Zustand (State) von einem \emph{assessment} als auch die Benutzerroll
 sondern der Wert in Form eines Strings in der Datenbank gespeichert werden soll. Der Constraint wird dann auf Application-Level durchgesetzt. Das ist ein ActiveRecord Standard und ermöglicht eine höhere Flexibilität und Erweiterbarkeit.
 Ausserdem werden nicht alle Akteure aus \ref{tab:participants} in Form von Benutzerrollen in der \emph{user} Entität abgebildet, da die Zwei Akteure \enquote{Betreuer} und \enquote{Korrektor} in der Praxis die gleiche Person sein wird.
 
-\subsection{Physisches Datenmodell (Generation)}
+\subsection{Physisches Datenmodell (Generation)} \label{subsec:model-generation}
 
 Das Ruby on Rails Framework bietet verschiedenste Command-Line Utilities, mit denen man sich relativ einfach gewisse
 Grundstrukturen automatisiert generieren lassen kann. Abgeleitet von \ref{fig:erd} können nun die ganzen Commands aufgestellt werden.
@@ -36,7 +36,6 @@ Werden diese ausgeführt, erstellen diese sowohl die dazugehörigen Model-Klasse
 \begin{figure}[H]
 \begin{codebox}
 \begin{minted}{shell}
-rails generate devise User
 rails generate model Assessment title:string status:string starts_at:datetime ends_at:datetime
 rails generate model AssessmentSession assessment:references user:references
 rails generate model Task title:string body:rich_text assessment:references
@@ -112,7 +111,7 @@ in der Renuo AG Englisch ist.
 
 \newpage
 
-\section{Testkonzept}
+\section{Testkonzept} \label{sec:test-concept}
 
 Das Testkonzept beschreibt, wie und mit welchen Werkzeugen das Resultat auf seine Richtigkeit kontrolliert wird.
 
@@ -148,7 +147,7 @@ nach ganz unten getestet und es wird eine korrekte Integration der darunterliege
 \subsubsection{System Tests}
 Für die einzelnen Benutzer-Flows aller Akteure werden System Tests mit Capybara geschrieben.
 Diese öffnen einen headless Chromium Webbrowser und klicken sich automatisiert durch eine im Voraus definierte Sequenz durch.
-Dabei werden keine Sonderfälle, sondern lediglich die Happy-Paths getestet, da die restlichen Sonderfälle wie z.B. Validierungen bereits durch andere Tests gedeckt sind.
+Dabei werden keine Sonderfälle, sondern lediglich die \gls{happypath} getestet, da die restlichen Sonderfälle wie z.B. Validierungen bereits durch andere Tests gedeckt sind.
 
 \newpage
 

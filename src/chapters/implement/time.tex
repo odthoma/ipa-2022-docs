@@ -1,0 +1,71 @@
+\section{Zeitbegrenzung}
+
+Nachdem das Assessment durch den Admin gestartet wurde und es seinen Zustand zu \enquote{open} gewechselt hat, wird
+ein Background-Job erstellt, der das Assessment rechtzeitig beenden soll. Dieser wird auf der Produktions-Umgebung 
+über das Sidekiq ActiveJob-Backend in die Warteschlange einer Redis in-memory Datenbank gestellt. 
+
+Der Job ist sehr simpel und ruft eine einzige Funktion auf der Assessment-Instanz auf, 
+die über die State-Machine dessen Zustand wechselt. 
+
+\begin{codebox}
+\begin{minted}{ruby}
+class EndAssessmentJob < ApplicationJob
+  queue_as :default
+
+  def perform(assessment)
+      assessment.finish!
+  end
+end
+\end{minted}
+\end{codebox}
+
+Ausserdem soll für den Bewerber jederzeit ersichtlich sein, wie lange dieser für das Assessment Zeit hat. 
+Dafür wird ein JS basierter Countdown über das Stimulus Framework implementiert, der die verbleibende Zeit runterzählt.
+
+Der Stimulus-Controller wird hier über das \emph{data-controller} HTML-Attribut an das \mintinline{html}{<h3>} Element gebunden.
+Ausserdem wird das exakte DateTime, an dem das Assessment beendet wird, im Unix-Timestamp-Format an die Controller-Klasse weitergegeben.
+
+\begin{figure}[H]
+\begin{codebox}
+\begin{minted}{html}
+h3(data-controller='assessment-time' data-assessment-time-end-value=@assessment.ends_at.to_i)
+\end{minted}
+\end{codebox}
+\end{figure}
+
+Der Timestamp kann dann im Controller als Stimulus-Value 
+
+\begin{figure}[H]
+\begin{codebox}
+\begin{minted}{javascript}
+export default class extends Controller {
+  static values = { end: Number }
+
+  connect () {
+    this.countdownInterval = setInterval(() => {
+      this.element.innerText = this.parsedTime;
+    }, 1000);
+  }
+
+  disconnect () {
+    clearInterval(this.countdownInterval);
+  }
+
+  get parsedTime () {
+    const remainingSeconds = this.endValue * 1000 - Date.now();
+    
+    ...
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  ...
+}
+\end{minted}
+\end{codebox}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/countdown.png}
+\end{figure}

@@ -1,0 +1,73 @@
+\section{Umsetzung der Datenstruktur und CRUD}
+
+Die grundlegende Datenstruktur wurde anhand der vordefinierten Rails-Generator Commands \ref{subsec:model-generation} aufgebaut.
+Damit war der grösste Teil der Arbeit bereits erledigt und es mussten lediglich die Assoziationen in den jeweiligen Model-Klassen ergänzt werden.
+Diese werden dort durch die ActiveRecord Funktionen \mintinline{ruby}{has_many}, \mintinline{ruby}{has_one}, und \mintinline{ruby}{belongs_to} abgebildet.
+
+Zwischen einer \emph{user} und \emph{assessment} Entität herrscht eine many-to-many Assoziation, da ein Benutzer
+mehrere Assessments haben kann, welches wiederum mehrere Bewerber beinhaltet. Dafür wird die Join-Tabelle \emph{assessment\_participations}
+eingesetzt. Um nun sicherzustellen, dass ein Benutzer nur einmal in einer Assessment-Instanz vorkommen kann, wurde über eine ActiveRecord Datenbankmigration ein 
+unique composite Index über beide Fremdschlüssel erstellt.
+
+\begin{codebox}
+\begin{minted}{ruby}
+def change
+  add_index :assessment_participations, %i[user_id assessment_id], unique: true
+end
+
+\end{minted}
+\end{codebox}
+
+Ausserdem sollte ein Bewerber nur eine einzige Lösung pro Aufgabe abgeben können. Dafür wurde auf der \emph{solutions}
+Tabelle ebenfalls ein unique composite Index erstellt. Beide Indizes werden auch auf Application-Level in den entsprechenden Model-Klassen
+durch Validierungen abgesichert, wodurch lesbarere Error-Messages generiert werden können.
+
+\begin{codebox}
+\begin{minted}{ruby}
+def change
+  add_index :solutions, %i[user_id task_id], unique: true
+end
+\end{minted}
+\end{codebox}
+
+\begin{codebox}
+\begin{minted}{ruby}
+class Solution < ApplicationRecord
+  belongs_to :task
+  belongs_to :user
+  has_many :comments, dependent: :destroy
+
+  validates :user_id, uniqueness: { scope: :task_id }
+end
+\end{minted}
+\end{codebox}
+
+\begin{codebox}
+\begin{minted}{ruby}
+class AssessmentParticipation < ApplicationRecord
+  belongs_to :assessment
+  belongs_to :user
+
+  validates :user_id, uniqueness: { scope: :assessment_id }
+end
+\end{minted}
+\end{codebox}
+
+Bei Ruby on Rails handelt es sich um ein \gls{mvc} Framework. Daher wurde für alle generierten Model-Klassen
+auch eine Controller-Klasse und die entsprechenden HTML-Views erstellt. Diese folgen grösstenteils dem Rails-Standard \cite{default_controller_actions} und beinhalten einfache \gls{crud} Operationen.
+
+Funktionen in einem ActionController werden \enquote{actions} genannt. 
+\begin{codebox}
+\begin{minted}{ruby}
+class AssessmentsController < ApplicationController
+  def create
+    @assessment = Assessment.new(assessment_params)
+    if @assessment.save
+      redirect_to @assessment
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+end
+\end{minted}
+\end{codebox}

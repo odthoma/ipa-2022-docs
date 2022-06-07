@@ -9,7 +9,7 @@ Jedes dieser Kriterien hat eine andere Gewichtung, bezogen auf deren Wichtigkeit
 Dabei spielen die bestehenden Kenntnisse des Kandidaten über die einzelnen Varianten eine sehr grosse Rolle,
 da das Projekt in einer sehr kurzen Zeit umgesetzt werden soll und werden daher besonders stark gewichtet.
 
-\section{State management}
+\section{State Management}
 Um das Verwalten der in dem Diagramm \ref{fig:state-diagram} beschriebenen Zustände eises Assessments zu vereinfachen,
 wird das Konzept einer \emph{State-Machine} eingeführt. Eine solche \enquote{Zustandsmaschine} liest eine Reihe von Eingaben
 und ändert den Zustand des jeweiligen Assessments bei jeder Eingabe entsprechend. Ausserdem ermöglicht dieses Konzept einen nachvollziehbaren
@@ -107,7 +107,7 @@ und die gute Integration in \emph{ActiveRecord::Enum} ist die 1. Variante der kl
 
 \newpage
 
-\section{Autorisierung}
+\section{Autorisierung} \label{sec:authorization}
 
 Damit ein Benutzer mit der Rolle \enquote{candidate} nur Ressourcen einsehen und bearbeiten kann, zu denen dieser berechtigt ist,
 wird ein System für eine Autorisierung benötigt. Diese Autorisierungsbibliothek sollte mit dem Authentifizierungs gem \emph{Devise} kompatibel sein, da dieses in dieser PA eingesetzt wird.

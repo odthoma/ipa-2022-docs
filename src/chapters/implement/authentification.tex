@@ -1,0 +1,58 @@
+
+\section{Authentifizierung}
+
+Als Authentifizierungssystem wird das \enquote{Devise} gem eingesetzt. Dies ist eine sehr bekannte, vollumfängliche Lösung für Ruby on Rails,
+welche einem die ganze Arbeit abnimmt, ein solches System selbst zu implementieren. Durch die mitgelieferten Generator-Commands
+kann schnell eine stabile Grundstruktur geschaffen werden - sogar inklusive allen HTML-Templates, welche nur noch leicht angepasst werden mussten. 
+Die notwendigen Model-Klassen und Datenbankmigrationen werden so ebenfalls vollautomatisch generiert.
+
+\begin{codebox}
+\begin{minted}{shell}
+rails generate devise:install
+rails generate devise User
+rails generate devise:views
+
+rails db:migrate
+\end{minted}
+\end{codebox}
+
+Devise basiert auf sogenannten \enquote{Strategies}, welche im User-Model definiert werden. Diese beschreiben,
+welche Funktionalitäten von Devise aktiviert werden sollen und welche nicht.
+
+\begin{codebox}
+\begin{minted}{ruby}
+class User < ApplicationRecord
+  devise :database_authenticatable, :recoverable, :trackable
+          :confirmable, :rememberable, :validatable, :registerable
+end
+\end{minted}
+\end{codebox}
+
+Hier wird auch die \mintinline{ruby}{:registerable} Strategy aufgelistet, die einen Registrierungsprozess implementiert.
+Und das, obwohl keine selbstständigen Registrierungen möglich sein sollten, da Bewerber nur per Einladungs-Link an einem Assessment teilnehmen können. 
+Die Strategy wird hier allerdings bewusst eingesetzt, da sie auch ein Formular für das Ändern von E-Mail-Adresse und Passwort bietet. 
+Das eigentliche Registrierungsformular \emph{/user/registrations/new} wird dann einfach explizit über die Devise route-definition deaktiviert, während
+die edit-routes manuell eingetragen werden.
+
+\begin{codebox}
+\begin{minted}{ruby}
+Rails.application.routes.draw do
+  devise_for :users, skip: %i[registrations]
+
+  devise_scope :user do
+    get 'users/edit', to: 'devise/registrations#edit'
+    put 'users', to: 'devise/registrations#update'
+  end
+
+  ...
+end
+\end{minted}
+\end{codebox}
+
+Ausserdem werden Strategies eingesetzt um:
+\begin{enumerate}
+  \item Passwörter via E-Mail zurückzusetzen
+  \item Jeden login/logout zu protokollieren inkl. Zeit, Datum, IP-Adresse
+  \item Formulareingaben zu validieren
+  \item Nach einer Änderung der E-Mail-Adresse diese via Link zu bestätigen
+\end{enumerate}

@@ -1,0 +1,39 @@
+\section{Assessment-Einladungen}
+
+Ein Admin soll einen Bewerber zu einem Assessment einladen können.
+
+
+
+Das \emph{devise\_invitable} gem wird als eine Grundlage verwendet, 
+Das gem bietet eine gute Grundlage fasd und es integriert perfekt mit Devise
+
+
+Damit ein Bewerber zu einem 
+
+\begin{codebox}
+\begin{minted}{ruby}
+  resources :assessments do
+    resources :invitations, only: %i[new create]
+    ...
+end
+\end{minted}
+\end{codebox}
+
+\begin{codebox}
+\begin{minted}{ruby}
+@user = User.find_by(email: params[:email]) ||
+        User.invite!({ email: params[:email], skip_invitation: true }, current_user)
+@user.invite_to(@assessment)
+\end{minted}
+\end{codebox}
+
+
+\begin{codebox}
+\begin{minted}{ruby}
+def invite_to(assessment)
+  errors.add(:email, :already_in_assessment) and return if assessment.candidates.exists?(id)
+  
+  assessments << assessment
+end
+\end{minted}
+\end{codebox}
