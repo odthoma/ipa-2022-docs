@@ -2,7 +2,7 @@
 
 \documentclass{scrreprt}
 
-\newcommand{\varVersion}{0.9}
+\newcommand{\varVersion}{1.0}
 
 \newcommand{\varAuthor}{Oliver Thoma}
 \newcommand{\varTitle}{Renuo Assessment-Assistant}
@@ -86,21 +86,22 @@
 \input{chapters/environment.tex}
 \input{chapters/organisation}
 \input{chapters/timeplan}
-\input{chapters/journal/journal}
+\input{chapters/journal}
 
 % global table properties
 \renewcommand{\arraystretch}{1.5}
 \newcolumntype{s}{>{\columncolor{PrimaryColor!25}} c}
 
+
 % see B6.1a
-% create a phantom toc entry for "Projekt"
+% create a phantom toc entry for "Projekt" and add a page break
 \clearpage\phantomsection\addcontentsline{toc}{part}{Projekt (Teil 2)}
 
 \input{chapters/summary}
 \input{chapters/inform}
 \input{chapters/plan}
 \input{chapters/decide}
-\input{chapters/implement/implement}
+\input{chapters/implement}
 \input{chapters/check}
 \input{chapters/evaluate}
 
